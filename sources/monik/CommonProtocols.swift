@@ -8,6 +8,38 @@
 
 import Foundation
 
+/// Protocol for logger.
+public protocol Logger: class {
+    
+    /// Identifier of logger instance. Used in factory to instantiate new logger.
+    static var identifier: String { get }
+    
+    /// Current logging level. Can be changed at any time.
+    var level: Monik.level { get set }
+    
+    /// Formatter which applied to each logged message
+    var formatter: Formatter? { get set }
+    
+    /// Loggin method.
+    ///
+    /// - Parameters:
+    ///   - source: Log source of current application.
+    ///   - level: Severity level of current logging message. Skipped if message
+    ///             level less then current logger level.
+    ///   - message: Log message
+    func log(_ source: Monik.source, _ level: Monik.level, _ message: String)
+}
+
+/// Protocol for formatting messages to the log
+public protocol Formatter {
+    func format(_ message: String) -> String
+}
+
+/// Protocol for setting unique identifier for instance of logger
+public protocol InstanceIdentifiable: class {
+    var instanceId: String { get set }
+}
+
 /// Enum defining possible errors
 ///
 /// - configureError: Wrong configuration file or parameters

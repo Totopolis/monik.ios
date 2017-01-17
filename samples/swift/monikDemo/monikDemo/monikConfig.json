@@ -1,0 +1,36 @@
+{
+    "loggers" : [
+         {
+             "channel"   : "console",
+             "level"     : "trace"
+         },
+         {
+             "channel"   : "monik",
+             "level"     : "trace",
+             "monik"     :
+             {
+                 "sync" :
+                 {
+                     "mq" :
+                     {
+                         "host"     : "10.3.111.37",
+                         "port"     : 5672,
+                         "user"     : "sdl",
+                         "password" : "sdl12345",
+                         "exchange" : "MonikExchangeDev",
+                         "durable"  : true
+                     },
+                     "meta" :
+                     {
+                         "source"   : "Element"
+                     }
+                 },
+                 "async" :
+                 {
+                     "retryTimeoutMillisecs" : 10000,
+                     "maxQueuedLogs"         : 16384
+                 }
+             }
+         }
+     ]
+}

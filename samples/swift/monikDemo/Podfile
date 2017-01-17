@@ -1,0 +1,17 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'monikDemo' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for monikDemo
+#    pod 'monik', :path => '~/Projects/monik.ios'
+    pod 'monik', :git => 'https://github.com/Totopolis/monik.ios.git'
+
+#  target 'monikDemoTests' do
+#    inherit! :search_paths
+#    # Pods for testing
+#  end
+
+end

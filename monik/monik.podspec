@@ -24,9 +24,7 @@ Pod::Spec.new do |s|
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  s.description  = <<-DESC
-						Allows you to log details to the console and to the rabbitMQ.
-						DESC
+  s.description  = "monik.iOS"
 
   s.homepage     = "https://github.com/Totopolis/monik.ios"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -92,7 +90,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "sources/monik", "sources/monik/**/*.{swift}"
+  s.source_files  = "sources", "sources/monik/**/*.{swift, h}"
   # s.source_files  = "Classes", "Classes/**/*.{swift}"
   # s.exclude_files = "Classes/Exclude"
 
@@ -136,7 +134,5 @@ Pod::Spec.new do |s|
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.dependency "JSONKit", "~> 1.4"
-  s.dependency "RMQClient", "~> 0.10.0"
-  s.dependency "ProtocolBuffers-Swift", "3.0.3"
 
 end

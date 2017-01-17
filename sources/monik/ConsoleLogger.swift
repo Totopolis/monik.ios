@@ -15,7 +15,8 @@ open class ConsoleLogger: Logger, Configurable {
         Swift.print(message)
     }
 
-    public static let identifier = "console"
-    public var level: Monik.level = .trace
+    open static let identifier = "console"
+    open var level: Monik.level = .trace
+    open var formatter: Formatter?
 }
 

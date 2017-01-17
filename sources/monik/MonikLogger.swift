@@ -10,8 +10,9 @@ import Foundation
 import RMQClient
 import ProtocolBuffers
 
-open class MonicLogger: Logger, Closable {
+open class MonicLogger: Logger, Closable, InstanceIdentifiable {
     
+    /// Structure for configurating monik logger.
     public struct Config {
         var host        = "localhost"
         var port        = 5672
@@ -20,13 +21,13 @@ open class MonicLogger: Logger, Closable {
         var exchange    = "monik.queue"
         var durable     = true
         
+        /// Connection string for rabbitMQ client.
         var uri: String {
             return "amqp://\(username):\(password)@\(host):\(port)"
         }
     }
     
-    
-    public func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
+    open func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
         
         let lg = Tutorial.Log.Builder()
         lg.body     = message
@@ -37,7 +38,7 @@ open class MonicLogger: Logger, Closable {
         let eventBuilder = Tutorial.Event.Builder()
         eventBuilder.created = Int64(Date().timeIntervalSinceNow * 1000)
         eventBuilder.source = source.description
-        eventBuilder.instance = metaSource
+        eventBuilder.instance = instanceId
         
         eventBuilder.lg = try! lg.build()
         
@@ -48,7 +49,7 @@ open class MonicLogger: Logger, Closable {
         print("Confirm: \(confirmNumber ?? 0)")
     }
     
-    public func close() {
+    open func close() {
         conn?.close()
     }
     
@@ -72,10 +73,8 @@ open class MonicLogger: Logger, Closable {
     }
     
     private var conn: RMQConnection?
-//    private var ch: RMQChannel?
     private var exchange: RMQExchange?
     private let delegate = RMQConnectionDelegateLogger()
-    fileprivate var metaSource = ""
     
     fileprivate var config: Config? {
         didSet {
@@ -85,8 +84,10 @@ open class MonicLogger: Logger, Closable {
         }
     }
     
-    public static let identifier = "monik"
-    public var level: Monik.level = .trace
+    open static let identifier = "monik"
+    open var level: Monik.level = .trace
+    open var formatter: Formatter?
+    open var instanceId: String = "[0:0]"
 }
 
 extension MonicLogger: Configurable {
@@ -99,7 +100,7 @@ extension MonicLogger: Configurable {
             let sync = monik["sync"] as? [AnyHashable: Any],
             let mq = sync["mq"] as? [AnyHashable: Any],
             let config = Config(with: mq),
-            let meta = sync["meta"] as? [AnyHashable: Any],
+//            let meta = sync["meta"] as? [AnyHashable: Any],
             // параметры переотправки сообщения в очередь.
             let _ = monik["async"] as? [AnyHashable: Any] else
         {
@@ -107,7 +108,6 @@ extension MonicLogger: Configurable {
         }
         
         self.config = config
-        self.metaSource = meta["source"] as? String ?? ""
     }
 }
 
