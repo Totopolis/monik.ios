@@ -8,15 +8,6 @@
 
 import Foundation
 
-public protocol Logger: class {
-    
-    static var identifier: String { get }
-    
-    var level: Monik.level { get set }
-    
-    func log(_ source: Monik.source, _ level: Monik.level, _ message: String)
-}
-
 open class Monik: Closable {
     
     public enum source {
@@ -44,37 +35,40 @@ open class Monik: Closable {
         }
     }
     
-    public func securityFatal(_ message: String) {
+    open func securityFatal(_ message: String) {
         log(.security, .fatal, message)
     }
     
-    public func systemTrace(_ message: String) {
+    open func systemTrace(_ message: String) {
         log(.system, .trace, message)
     }
     
-    public func logicWarning(_ message: String) {
+    open func logicWarning(_ message: String) {
         log(.logic, .warning, message)
     }
     
-    public func log(_ source: source, _ level: level, _ message: String) {
+    open func log(_ source: source, _ level: level, _ message: String) {
         queue.async {
             self.loggers.forEach {
                 if level >= $0.level {
-                    $0.log(source, level, message)
+                    // format message with formatter or leave unchanged if nil formatter.
+                    let msg = $0.formatter?.format(message) ?? message
+                    // log message to queue.
+                    $0.log(source, level, msg)
                 }
             }
         }
     }
     
-    public func close() {
+    open func close() {
         loggers.forEach { ($0 as? Closable)?.close() }
     }
     
-    public var loggers: [Logger] = []
+    open var loggers: [Logger] = []
     
     private let queue = DispatchQueue(label: "monik.log")
     
-    public static var `default`: Monik = {
+    open static var `default`: Monik = {
         let m = Monik()
         m.loggers = [ ConsoleLogger() ]
         return m
