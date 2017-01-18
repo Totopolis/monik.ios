@@ -66,7 +66,7 @@ open class Monik: Closable {
     
     open var loggers: [Logger] = []
     
-    private let queue = DispatchQueue(label: "monik.log")
+    fileprivate let queue = DispatchQueue(label: "monik.log")
     
     open static var `default`: Monik = {
         let m = Monik()
@@ -77,7 +77,7 @@ open class Monik: Closable {
 
 extension Monik {
     
-    public func configure(with data: [AnyHashable : Any], factory: Factory.Type) throws {
+    open func configure(with data: [AnyHashable : Any], factory: Factory.Type) throws {
         guard let loggers = data["loggers"] as? [[AnyHashable: Any]] else {
             throw MonikError.configureError
         }
@@ -85,7 +85,7 @@ extension Monik {
         self.loggers = loggers.flatMap {
             guard let channel = $0["channel"] as? String,
                 let logger = factory.instantiate(channel) else {
-                return nil
+                    return nil
             }
             
             try? (logger as? Configurable)?.configure(with: $0)
@@ -95,14 +95,17 @@ extension Monik {
     }
     
     open func configure(with url: URL) {
-        guard let data = try? Data(contentsOf: url),
-            let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [AnyHashable: Any],
-            let configuration = json else
-        {
-                return
-        }
         
-        try? configure(with: configuration, factory: Factory.self)
+        queue.sync {
+            guard let data = try? Data(contentsOf: url),
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [AnyHashable: Any],
+                let configuration = json else
+            {
+                return
+            }
+            
+            try? configure(with: configuration, factory: Factory.self)
+        }
     }
 }
 

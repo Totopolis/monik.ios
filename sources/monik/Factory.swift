@@ -21,8 +21,8 @@ open class Factory {
         switch identifier {
         case ConsoleLogger.identifier:
             return ConsoleLogger()
-        case MonicLogger.identifier:
-            return MonicLogger()
+        case MonikLogger.identifier:
+            return MonikLogger()
         default:
             return nil
         }

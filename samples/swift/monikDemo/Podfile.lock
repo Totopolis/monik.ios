@@ -16,16 +16,11 @@ PODS:
     - JKVValue
 
 DEPENDENCIES:
-  - monik (from `https://github.com/Totopolis/monik.ios.git`)
+  - monik (from `~/Projects/monik.ios`)
 
 EXTERNAL SOURCES:
   monik:
-    :git: https://github.com/Totopolis/monik.ios.git
-
-CHECKOUT OPTIONS:
-  monik:
-    :commit: 4f150ca740d890a0ed9b63cbbbe8e2aeeeb4419a
-    :git: https://github.com/Totopolis/monik.ios.git
+    :path: ~/Projects/monik.ios
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
@@ -34,6 +29,6 @@ SPEC CHECKSUMS:
   ProtocolBuffers-Swift: 572c8b24d1405ba556a5f682bc4453c7a98dc946
   RMQClient: e9bfea2d08f151b6b12df82ad115c78bd8de2106
 
-PODFILE CHECKSUM: 923304fecad0b52ee370448670382ad34d146b3d
+PODFILE CHECKSUM: 17cd299a266951f1d7ca1daa6614c2b25781e94a
 
 COCOAPODS: 1.1.1

@@ -6,8 +6,8 @@ target 'monikDemo' do
   use_frameworks!
 
   # Pods for monikDemo
-#    pod 'monik', :path => '~/Projects/monik.ios'
-    pod 'monik', :git => 'https://github.com/Totopolis/monik.ios.git'
+    pod 'monik', :path => '~/Projects/monik.ios'
+#    pod 'monik', :git => 'https://github.com/Totopolis/monik.ios.git'
 
 #  target 'monikDemoTests' do
 #    inherit! :search_paths
