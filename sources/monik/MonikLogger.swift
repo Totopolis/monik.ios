@@ -30,13 +30,13 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     
     open func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
         
-        let lg = Tutorial.Log.Builder()
+        let lg = MonikProto.Log.Builder()
         lg.body     = message
-        lg.level    = Tutorial.LevelType.application
-        lg.severity = Tutorial.SeverityType.verbose
-        lg.format   = Tutorial.FormatType.plain
+        lg.level    = MonikProto.LevelType.application
+        lg.severity = MonikProto.SeverityType.verbose
+        lg.format   = MonikProto.FormatType.plain
         
-        let eventBuilder = Tutorial.Event.Builder()
+        let eventBuilder = MonikProto.Event.Builder()
         eventBuilder.created = Int64(Date().timeIntervalSinceNow * 1000)
         eventBuilder.source = source.description
         eventBuilder.instance = instanceId

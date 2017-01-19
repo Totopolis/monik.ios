@@ -6,9 +6,9 @@ import Foundation
 import ProtocolBuffers
 
 
-public struct Tutorial { }
+public struct MonikProto { }
 
-public extension Tutorial {
+public extension MonikProto {
   public struct MonikRoot {
     public static let `default` = MonikRoot()
     public var extensionRegistry:ExtensionRegistry
@@ -38,7 +38,7 @@ public extension Tutorial {
       case .security: return "SECURITY"
       }
     }
-    public static func fromString(str:String) throws -> Tutorial.LevelType {
+    public static func fromString(str:String) throws -> MonikProto.LevelType {
       switch str {
       case "SYSTEM":  return .system
       case "APPLICATION":  return .application
@@ -80,7 +80,7 @@ public extension Tutorial {
       case .verbose: return "VERBOSE"
       }
     }
-    public static func fromString(str:String) throws -> Tutorial.SeverityType {
+    public static func fromString(str:String) throws -> MonikProto.SeverityType {
       switch str {
       case "FATAL":  return .fatal
       case "ERROR":  return .error
@@ -120,7 +120,7 @@ public extension Tutorial {
       case .xml: return "XML"
       }
     }
-    public static func fromString(str:String) throws -> Tutorial.FormatType {
+    public static func fromString(str:String) throws -> MonikProto.FormatType {
       switch str {
       case "PLAIN":  return .plain
       case "JSON":  return .json
@@ -143,7 +143,7 @@ public extension Tutorial {
 
   final public class Event : GeneratedMessage {
 
-    public static func == (lhs: Tutorial.Event, rhs: Tutorial.Event) -> Bool {
+    public static func == (lhs: MonikProto.Event, rhs: MonikProto.Event) -> Bool {
       if (lhs === rhs) {
         return true
       }
@@ -173,9 +173,9 @@ public extension Tutorial {
                 return true
            }
       }
-      case Ka(Tutorial.KeepAlive)
+      case Ka(MonikProto.KeepAlive)
 
-      public static func getKa(_ value:Msg) -> Tutorial.KeepAlive? {
+      public static func getKa(_ value:Msg) -> MonikProto.KeepAlive? {
            switch value {
            case .Ka(let enumValue):
                 return enumValue
@@ -183,9 +183,9 @@ public extension Tutorial {
                 return nil
            }
       }
-      case Lg(Tutorial.Log)
+      case Lg(MonikProto.Log)
 
-      public static func getLg(_ value:Msg) -> Tutorial.Log? {
+      public static func getLg(_ value:Msg) -> MonikProto.Log? {
            switch value {
            case .Lg(let enumValue):
                 return enumValue
@@ -193,9 +193,9 @@ public extension Tutorial {
                 return nil
            }
       }
-      case Pc(Tutorial.PerfCounter)
+      case Pc(MonikProto.PerfCounter)
 
-      public static func getPc(_ value:Msg) -> Tutorial.PerfCounter? {
+      public static func getPc(_ value:Msg) -> MonikProto.PerfCounter? {
            switch value {
            case .Pc(let enumValue):
                 return enumValue
@@ -211,10 +211,11 @@ public extension Tutorial {
         let copyObjectMsg = storageMsg
         return copyObjectMsg
     }
+    // milliseconds
     public fileprivate(set) var created:Int64 = Int64(0)
     public fileprivate(set) var hasCreated:Bool = false
 
-    // Server, Role, Application, Service, etc
+    // Role Name, Application Name, Service Name, etc
     public fileprivate(set) var source:String = ""
     public fileprivate(set) var hasSource:Bool = false
 
@@ -222,7 +223,7 @@ public extension Tutorial {
     public fileprivate(set) var instance:String = ""
     public fileprivate(set) var hasInstance:Bool = false
 
-    public fileprivate(set) var ka:Tutorial.KeepAlive!{
+    public fileprivate(set) var ka:MonikProto.KeepAlive!{
          get {
               return Event.Msg.getKa(storageMsg)
          }
@@ -240,7 +241,7 @@ public extension Tutorial {
           set(newValue) {
           }
     }
-    public fileprivate(set) var lg:Tutorial.Log!{
+    public fileprivate(set) var lg:MonikProto.Log!{
          get {
               return Event.Msg.getLg(storageMsg)
          }
@@ -258,7 +259,7 @@ public extension Tutorial {
           set(newValue) {
           }
     }
-    public fileprivate(set) var pc:Tutorial.PerfCounter!{
+    public fileprivate(set) var pc:MonikProto.PerfCounter!{
          get {
               return Event.Msg.getPc(storageMsg)
          }
@@ -338,23 +339,23 @@ public extension Tutorial {
       memoizedSerializedSize = serialize_size
       return serialize_size
     }
-    public class func getBuilder() -> Tutorial.Event.Builder {
-      return Tutorial.Event.classBuilder() as! Tutorial.Event.Builder
+    public class func getBuilder() -> MonikProto.Event.Builder {
+      return MonikProto.Event.classBuilder() as! MonikProto.Event.Builder
     }
-    public func getBuilder() -> Tutorial.Event.Builder {
-      return classBuilder() as! Tutorial.Event.Builder
+    public func getBuilder() -> MonikProto.Event.Builder {
+      return classBuilder() as! MonikProto.Event.Builder
     }
     override public class func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.Event.Builder()
+      return MonikProto.Event.Builder()
     }
     override public func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.Event.Builder()
+      return MonikProto.Event.Builder()
     }
-    public func toBuilder() throws -> Tutorial.Event.Builder {
-      return try Tutorial.Event.builderWithPrototype(prototype:self)
+    public func toBuilder() throws -> MonikProto.Event.Builder {
+      return try MonikProto.Event.builderWithPrototype(prototype:self)
     }
-    public class func builderWithPrototype(prototype:Tutorial.Event) throws -> Tutorial.Event.Builder {
-      return try Tutorial.Event.Builder().mergeFrom(other:prototype)
+    public class func builderWithPrototype(prototype:MonikProto.Event) throws -> MonikProto.Event.Builder {
+      return try MonikProto.Event.Builder().mergeFrom(other:prototype)
     }
     override public func encode() throws -> Dictionary<String,Any> {
       guard isInitialized() else {
@@ -382,11 +383,11 @@ public extension Tutorial {
       }
       return jsonMap
     }
-    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> Tutorial.Event {
-      return try Tutorial.Event.Builder.decodeToBuilder(jsonMap:jsonMap).build()
+    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> MonikProto.Event {
+      return try MonikProto.Event.Builder.decodeToBuilder(jsonMap:jsonMap).build()
     }
-    override class public func fromJSON(data:Data) throws -> Tutorial.Event {
-      return try Tutorial.Event.Builder.fromJSONToBuilder(data:data).build()
+    override class public func fromJSON(data:Data) throws -> MonikProto.Event {
+      return try MonikProto.Event.Builder.fromJSONToBuilder(data:data).build()
     }
     override public func getDescription(indent:String) throws -> String {
       var output = ""
@@ -459,16 +460,16 @@ public extension Tutorial {
     //Meta information declaration start
 
     override public class func className() -> String {
-        return "Tutorial.Event"
+        return "MonikProto.Event"
     }
     override public func className() -> String {
-        return "Tutorial.Event"
+        return "MonikProto.Event"
     }
     //Meta information declaration end
 
     final public class Builder : GeneratedMessageBuilder {
-      fileprivate var builderResult:Tutorial.Event = Tutorial.Event()
-      public func getMessage() -> Tutorial.Event {
+      fileprivate var builderResult:MonikProto.Event = MonikProto.Event()
+      public func getMessage() -> MonikProto.Event {
           return builderResult
       }
 
@@ -490,12 +491,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setCreated(_ value:Int64) -> Tutorial.Event.Builder {
+      public func setCreated(_ value:Int64) -> MonikProto.Event.Builder {
         self.created = value
         return self
       }
       @discardableResult
-      public func clearCreated() -> Tutorial.Event.Builder{
+      public func clearCreated() -> MonikProto.Event.Builder{
            builderResult.hasCreated = false
            builderResult.created = Int64(0)
            return self
@@ -515,12 +516,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setSource(_ value:String) -> Tutorial.Event.Builder {
+      public func setSource(_ value:String) -> MonikProto.Event.Builder {
         self.source = value
         return self
       }
       @discardableResult
-      public func clearSource() -> Tutorial.Event.Builder{
+      public func clearSource() -> MonikProto.Event.Builder{
            builderResult.hasSource = false
            builderResult.source = ""
            return self
@@ -540,12 +541,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setInstance(_ value:String) -> Tutorial.Event.Builder {
+      public func setInstance(_ value:String) -> MonikProto.Event.Builder {
         self.instance = value
         return self
       }
       @discardableResult
-      public func clearInstance() -> Tutorial.Event.Builder{
+      public func clearInstance() -> MonikProto.Event.Builder{
            builderResult.hasInstance = false
            builderResult.instance = ""
            return self
@@ -555,7 +556,7 @@ public extension Tutorial {
                return builderResult.hasKa
            }
       }
-      public var ka:Tutorial.KeepAlive! {
+      public var ka:MonikProto.KeepAlive! {
            get {
                if kaBuilder_ != nil {
                   builderResult.ka = kaBuilder_.getMessage()
@@ -567,14 +568,14 @@ public extension Tutorial {
                builderResult.ka = value
            }
       }
-      fileprivate var kaBuilder_:Tutorial.KeepAlive.Builder! {
+      fileprivate var kaBuilder_:MonikProto.KeepAlive.Builder! {
            didSet {
               builderResult.hasKa = true
            }
       }
-      public func getKaBuilder() -> Tutorial.KeepAlive.Builder {
+      public func getKaBuilder() -> MonikProto.KeepAlive.Builder {
         if kaBuilder_ == nil {
-           kaBuilder_ = Tutorial.KeepAlive.Builder()
+           kaBuilder_ = MonikProto.KeepAlive.Builder()
            builderResult.ka = kaBuilder_.getMessage()
            if ka != nil {
               try! kaBuilder_.mergeFrom(other: ka)
@@ -583,14 +584,14 @@ public extension Tutorial {
         return kaBuilder_
       }
       @discardableResult
-      public func setKa(_ value:Tutorial.KeepAlive!) -> Tutorial.Event.Builder {
+      public func setKa(_ value:MonikProto.KeepAlive!) -> MonikProto.Event.Builder {
         self.ka = value
         return self
       }
       @discardableResult
-      public func mergeKa(value:Tutorial.KeepAlive) throws -> Tutorial.Event.Builder {
+      public func mergeKa(value:MonikProto.KeepAlive) throws -> MonikProto.Event.Builder {
         if builderResult.hasKa {
-          builderResult.ka = try Tutorial.KeepAlive.builderWithPrototype(prototype:builderResult.ka).mergeFrom(other: value).buildPartial()
+          builderResult.ka = try MonikProto.KeepAlive.builderWithPrototype(prototype:builderResult.ka).mergeFrom(other: value).buildPartial()
         } else {
           builderResult.ka = value
         }
@@ -598,7 +599,7 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      public func clearKa() -> Tutorial.Event.Builder {
+      public func clearKa() -> MonikProto.Event.Builder {
         kaBuilder_ = nil
         builderResult.hasKa = false
         builderResult.ka = nil
@@ -609,7 +610,7 @@ public extension Tutorial {
                return builderResult.hasLg
            }
       }
-      public var lg:Tutorial.Log! {
+      public var lg:MonikProto.Log! {
            get {
                if lgBuilder_ != nil {
                   builderResult.lg = lgBuilder_.getMessage()
@@ -621,14 +622,14 @@ public extension Tutorial {
                builderResult.lg = value
            }
       }
-      fileprivate var lgBuilder_:Tutorial.Log.Builder! {
+      fileprivate var lgBuilder_:MonikProto.Log.Builder! {
            didSet {
               builderResult.hasLg = true
            }
       }
-      public func getLgBuilder() -> Tutorial.Log.Builder {
+      public func getLgBuilder() -> MonikProto.Log.Builder {
         if lgBuilder_ == nil {
-           lgBuilder_ = Tutorial.Log.Builder()
+           lgBuilder_ = MonikProto.Log.Builder()
            builderResult.lg = lgBuilder_.getMessage()
            if lg != nil {
               try! lgBuilder_.mergeFrom(other: lg)
@@ -637,14 +638,14 @@ public extension Tutorial {
         return lgBuilder_
       }
       @discardableResult
-      public func setLg(_ value:Tutorial.Log!) -> Tutorial.Event.Builder {
+      public func setLg(_ value:MonikProto.Log!) -> MonikProto.Event.Builder {
         self.lg = value
         return self
       }
       @discardableResult
-      public func mergeLg(value:Tutorial.Log) throws -> Tutorial.Event.Builder {
+      public func mergeLg(value:MonikProto.Log) throws -> MonikProto.Event.Builder {
         if builderResult.hasLg {
-          builderResult.lg = try Tutorial.Log.builderWithPrototype(prototype:builderResult.lg).mergeFrom(other: value).buildPartial()
+          builderResult.lg = try MonikProto.Log.builderWithPrototype(prototype:builderResult.lg).mergeFrom(other: value).buildPartial()
         } else {
           builderResult.lg = value
         }
@@ -652,7 +653,7 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      public func clearLg() -> Tutorial.Event.Builder {
+      public func clearLg() -> MonikProto.Event.Builder {
         lgBuilder_ = nil
         builderResult.hasLg = false
         builderResult.lg = nil
@@ -663,7 +664,7 @@ public extension Tutorial {
                return builderResult.hasPc
            }
       }
-      public var pc:Tutorial.PerfCounter! {
+      public var pc:MonikProto.PerfCounter! {
            get {
                if pcBuilder_ != nil {
                   builderResult.pc = pcBuilder_.getMessage()
@@ -675,14 +676,14 @@ public extension Tutorial {
                builderResult.pc = value
            }
       }
-      fileprivate var pcBuilder_:Tutorial.PerfCounter.Builder! {
+      fileprivate var pcBuilder_:MonikProto.PerfCounter.Builder! {
            didSet {
               builderResult.hasPc = true
            }
       }
-      public func getPcBuilder() -> Tutorial.PerfCounter.Builder {
+      public func getPcBuilder() -> MonikProto.PerfCounter.Builder {
         if pcBuilder_ == nil {
-           pcBuilder_ = Tutorial.PerfCounter.Builder()
+           pcBuilder_ = MonikProto.PerfCounter.Builder()
            builderResult.pc = pcBuilder_.getMessage()
            if pc != nil {
               try! pcBuilder_.mergeFrom(other: pc)
@@ -691,14 +692,14 @@ public extension Tutorial {
         return pcBuilder_
       }
       @discardableResult
-      public func setPc(_ value:Tutorial.PerfCounter!) -> Tutorial.Event.Builder {
+      public func setPc(_ value:MonikProto.PerfCounter!) -> MonikProto.Event.Builder {
         self.pc = value
         return self
       }
       @discardableResult
-      public func mergePc(value:Tutorial.PerfCounter) throws -> Tutorial.Event.Builder {
+      public func mergePc(value:MonikProto.PerfCounter) throws -> MonikProto.Event.Builder {
         if builderResult.hasPc {
-          builderResult.pc = try Tutorial.PerfCounter.builderWithPrototype(prototype:builderResult.pc).mergeFrom(other: value).buildPartial()
+          builderResult.pc = try MonikProto.PerfCounter.builderWithPrototype(prototype:builderResult.pc).mergeFrom(other: value).buildPartial()
         } else {
           builderResult.pc = value
         }
@@ -706,7 +707,7 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      public func clearPc() -> Tutorial.Event.Builder {
+      public func clearPc() -> MonikProto.Event.Builder {
         pcBuilder_ = nil
         builderResult.hasPc = false
         builderResult.pc = nil
@@ -718,24 +719,24 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      override public func clear() -> Tutorial.Event.Builder {
-        builderResult = Tutorial.Event()
+      override public func clear() -> MonikProto.Event.Builder {
+        builderResult = MonikProto.Event()
         return self
       }
-      override public func clone() throws -> Tutorial.Event.Builder {
-        return try Tutorial.Event.builderWithPrototype(prototype:builderResult)
+      override public func clone() throws -> MonikProto.Event.Builder {
+        return try MonikProto.Event.builderWithPrototype(prototype:builderResult)
       }
-      override public func build() throws -> Tutorial.Event {
+      override public func build() throws -> MonikProto.Event {
            try checkInitialized()
            return buildPartial()
       }
-      public func buildPartial() -> Tutorial.Event {
-        let returnMe:Tutorial.Event = builderResult
+      public func buildPartial() -> MonikProto.Event {
+        let returnMe:MonikProto.Event = builderResult
         return returnMe
       }
       @discardableResult
-      public func mergeFrom(other:Tutorial.Event) throws -> Tutorial.Event.Builder {
-        if other == Tutorial.Event() {
+      public func mergeFrom(other:MonikProto.Event) throws -> MonikProto.Event.Builder {
+        if other == MonikProto.Event() {
          return self
         }
         if other.hasCreated {
@@ -760,11 +761,11 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> Tutorial.Event.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> MonikProto.Event.Builder {
            return try mergeFrom(codedInputStream: codedInputStream, extensionRegistry:ExtensionRegistry())
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Event.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Event.Builder {
         let unknownFieldsBuilder:UnknownFieldSet.Builder = try UnknownFieldSet.builderWithUnknownFields(copyFrom:self.unknownFields)
         while (true) {
           let protobufTag = try codedInputStream.readTag()
@@ -783,7 +784,7 @@ public extension Tutorial {
             instance = try codedInputStream.readString()
 
           case 34:
-            let subBuilder:Tutorial.KeepAlive.Builder = Tutorial.KeepAlive.Builder()
+            let subBuilder:MonikProto.KeepAlive.Builder = MonikProto.KeepAlive.Builder()
             if hasKa {
               try subBuilder.mergeFrom(other: ka)
             }
@@ -791,7 +792,7 @@ public extension Tutorial {
             ka = subBuilder.buildPartial()
 
           case 42:
-            let subBuilder:Tutorial.Log.Builder = Tutorial.Log.Builder()
+            let subBuilder:MonikProto.Log.Builder = MonikProto.Log.Builder()
             if hasLg {
               try subBuilder.mergeFrom(other: lg)
             }
@@ -799,7 +800,7 @@ public extension Tutorial {
             lg = subBuilder.buildPartial()
 
           case 50:
-            let subBuilder:Tutorial.PerfCounter.Builder = Tutorial.PerfCounter.Builder()
+            let subBuilder:MonikProto.PerfCounter.Builder = MonikProto.PerfCounter.Builder()
             if hasPc {
               try subBuilder.mergeFrom(other: pc)
             }
@@ -814,8 +815,8 @@ public extension Tutorial {
           }
         }
       }
-      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> Tutorial.Event.Builder {
-        let resultDecodedBuilder = Tutorial.Event.Builder()
+      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> MonikProto.Event.Builder {
+        let resultDecodedBuilder = MonikProto.Event.Builder()
         if let jsonValueCreated = jsonMap["created"] as? String {
           resultDecodedBuilder.created = Int64(jsonValueCreated)!
         }
@@ -826,25 +827,25 @@ public extension Tutorial {
           resultDecodedBuilder.instance = jsonValueInstance
         }
         if let jsonValueKa = jsonMap["ka"] as? Dictionary<String,Any> {
-          resultDecodedBuilder.ka = try Tutorial.KeepAlive.Builder.decodeToBuilder(jsonMap:jsonValueKa).build()
+          resultDecodedBuilder.ka = try MonikProto.KeepAlive.Builder.decodeToBuilder(jsonMap:jsonValueKa).build()
 
         }
         if let jsonValueLg = jsonMap["lg"] as? Dictionary<String,Any> {
-          resultDecodedBuilder.lg = try Tutorial.Log.Builder.decodeToBuilder(jsonMap:jsonValueLg).build()
+          resultDecodedBuilder.lg = try MonikProto.Log.Builder.decodeToBuilder(jsonMap:jsonValueLg).build()
 
         }
         if let jsonValuePc = jsonMap["pc"] as? Dictionary<String,Any> {
-          resultDecodedBuilder.pc = try Tutorial.PerfCounter.Builder.decodeToBuilder(jsonMap:jsonValuePc).build()
+          resultDecodedBuilder.pc = try MonikProto.PerfCounter.Builder.decodeToBuilder(jsonMap:jsonValuePc).build()
 
         }
         return resultDecodedBuilder
       }
-      override class public func fromJSONToBuilder(data:Data) throws -> Tutorial.Event.Builder {
+      override class public func fromJSONToBuilder(data:Data) throws -> MonikProto.Event.Builder {
         let jsonData = try JSONSerialization.jsonObject(with:data, options: JSONSerialization.ReadingOptions(rawValue: 0))
         guard let jsDataCast = jsonData as? Dictionary<String,Any> else {
           throw ProtocolBuffersError.invalidProtocolBuffer("Invalid JSON data")
         }
-        return try Tutorial.Event.Builder.decodeToBuilder(jsonMap:jsDataCast)
+        return try MonikProto.Event.Builder.decodeToBuilder(jsonMap:jsDataCast)
       }
     }
 
@@ -852,7 +853,7 @@ public extension Tutorial {
 
   final public class KeepAlive : GeneratedMessage {
 
-    public static func == (lhs: Tutorial.KeepAlive, rhs: Tutorial.KeepAlive) -> Bool {
+    public static func == (lhs: MonikProto.KeepAlive, rhs: MonikProto.KeepAlive) -> Bool {
       if (lhs === rhs) {
         return true
       }
@@ -862,6 +863,7 @@ public extension Tutorial {
       return fieldCheck
     }
 
+    // seconds
     public fileprivate(set) var interval:UInt32 = UInt32(0)
     public fileprivate(set) var hasInterval:Bool = false
 
@@ -891,23 +893,23 @@ public extension Tutorial {
       memoizedSerializedSize = serialize_size
       return serialize_size
     }
-    public class func getBuilder() -> Tutorial.KeepAlive.Builder {
-      return Tutorial.KeepAlive.classBuilder() as! Tutorial.KeepAlive.Builder
+    public class func getBuilder() -> MonikProto.KeepAlive.Builder {
+      return MonikProto.KeepAlive.classBuilder() as! MonikProto.KeepAlive.Builder
     }
-    public func getBuilder() -> Tutorial.KeepAlive.Builder {
-      return classBuilder() as! Tutorial.KeepAlive.Builder
+    public func getBuilder() -> MonikProto.KeepAlive.Builder {
+      return classBuilder() as! MonikProto.KeepAlive.Builder
     }
     override public class func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.KeepAlive.Builder()
+      return MonikProto.KeepAlive.Builder()
     }
     override public func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.KeepAlive.Builder()
+      return MonikProto.KeepAlive.Builder()
     }
-    public func toBuilder() throws -> Tutorial.KeepAlive.Builder {
-      return try Tutorial.KeepAlive.builderWithPrototype(prototype:self)
+    public func toBuilder() throws -> MonikProto.KeepAlive.Builder {
+      return try MonikProto.KeepAlive.builderWithPrototype(prototype:self)
     }
-    public class func builderWithPrototype(prototype:Tutorial.KeepAlive) throws -> Tutorial.KeepAlive.Builder {
-      return try Tutorial.KeepAlive.Builder().mergeFrom(other:prototype)
+    public class func builderWithPrototype(prototype:MonikProto.KeepAlive) throws -> MonikProto.KeepAlive.Builder {
+      return try MonikProto.KeepAlive.Builder().mergeFrom(other:prototype)
     }
     override public func encode() throws -> Dictionary<String,Any> {
       guard isInitialized() else {
@@ -920,11 +922,11 @@ public extension Tutorial {
       }
       return jsonMap
     }
-    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> Tutorial.KeepAlive {
-      return try Tutorial.KeepAlive.Builder.decodeToBuilder(jsonMap:jsonMap).build()
+    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> MonikProto.KeepAlive {
+      return try MonikProto.KeepAlive.Builder.decodeToBuilder(jsonMap:jsonMap).build()
     }
-    override class public func fromJSON(data:Data) throws -> Tutorial.KeepAlive {
-      return try Tutorial.KeepAlive.Builder.fromJSONToBuilder(data:data).build()
+    override class public func fromJSON(data:Data) throws -> MonikProto.KeepAlive {
+      return try MonikProto.KeepAlive.Builder.fromJSONToBuilder(data:data).build()
     }
     override public func getDescription(indent:String) throws -> String {
       var output = ""
@@ -949,16 +951,16 @@ public extension Tutorial {
     //Meta information declaration start
 
     override public class func className() -> String {
-        return "Tutorial.KeepAlive"
+        return "MonikProto.KeepAlive"
     }
     override public func className() -> String {
-        return "Tutorial.KeepAlive"
+        return "MonikProto.KeepAlive"
     }
     //Meta information declaration end
 
     final public class Builder : GeneratedMessageBuilder {
-      fileprivate var builderResult:Tutorial.KeepAlive = Tutorial.KeepAlive()
-      public func getMessage() -> Tutorial.KeepAlive {
+      fileprivate var builderResult:MonikProto.KeepAlive = MonikProto.KeepAlive()
+      public func getMessage() -> MonikProto.KeepAlive {
           return builderResult
       }
 
@@ -980,12 +982,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setInterval(_ value:UInt32) -> Tutorial.KeepAlive.Builder {
+      public func setInterval(_ value:UInt32) -> MonikProto.KeepAlive.Builder {
         self.interval = value
         return self
       }
       @discardableResult
-      public func clearInterval() -> Tutorial.KeepAlive.Builder{
+      public func clearInterval() -> MonikProto.KeepAlive.Builder{
            builderResult.hasInterval = false
            builderResult.interval = UInt32(0)
            return self
@@ -996,24 +998,24 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      override public func clear() -> Tutorial.KeepAlive.Builder {
-        builderResult = Tutorial.KeepAlive()
+      override public func clear() -> MonikProto.KeepAlive.Builder {
+        builderResult = MonikProto.KeepAlive()
         return self
       }
-      override public func clone() throws -> Tutorial.KeepAlive.Builder {
-        return try Tutorial.KeepAlive.builderWithPrototype(prototype:builderResult)
+      override public func clone() throws -> MonikProto.KeepAlive.Builder {
+        return try MonikProto.KeepAlive.builderWithPrototype(prototype:builderResult)
       }
-      override public func build() throws -> Tutorial.KeepAlive {
+      override public func build() throws -> MonikProto.KeepAlive {
            try checkInitialized()
            return buildPartial()
       }
-      public func buildPartial() -> Tutorial.KeepAlive {
-        let returnMe:Tutorial.KeepAlive = builderResult
+      public func buildPartial() -> MonikProto.KeepAlive {
+        let returnMe:MonikProto.KeepAlive = builderResult
         return returnMe
       }
       @discardableResult
-      public func mergeFrom(other:Tutorial.KeepAlive) throws -> Tutorial.KeepAlive.Builder {
-        if other == Tutorial.KeepAlive() {
+      public func mergeFrom(other:MonikProto.KeepAlive) throws -> MonikProto.KeepAlive.Builder {
+        if other == MonikProto.KeepAlive() {
          return self
         }
         if other.hasInterval {
@@ -1023,11 +1025,11 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> Tutorial.KeepAlive.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> MonikProto.KeepAlive.Builder {
            return try mergeFrom(codedInputStream: codedInputStream, extensionRegistry:ExtensionRegistry())
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.KeepAlive.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.KeepAlive.Builder {
         let unknownFieldsBuilder:UnknownFieldSet.Builder = try UnknownFieldSet.builderWithUnknownFields(copyFrom:self.unknownFields)
         while (true) {
           let protobufTag = try codedInputStream.readTag()
@@ -1047,19 +1049,19 @@ public extension Tutorial {
           }
         }
       }
-      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> Tutorial.KeepAlive.Builder {
-        let resultDecodedBuilder = Tutorial.KeepAlive.Builder()
+      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> MonikProto.KeepAlive.Builder {
+        let resultDecodedBuilder = MonikProto.KeepAlive.Builder()
         if let jsonValueInterval = jsonMap["interval"] as? UInt {
           resultDecodedBuilder.interval = UInt32(jsonValueInterval)
         }
         return resultDecodedBuilder
       }
-      override class public func fromJSONToBuilder(data:Data) throws -> Tutorial.KeepAlive.Builder {
+      override class public func fromJSONToBuilder(data:Data) throws -> MonikProto.KeepAlive.Builder {
         let jsonData = try JSONSerialization.jsonObject(with:data, options: JSONSerialization.ReadingOptions(rawValue: 0))
         guard let jsDataCast = jsonData as? Dictionary<String,Any> else {
           throw ProtocolBuffersError.invalidProtocolBuffer("Invalid JSON data")
         }
-        return try Tutorial.KeepAlive.Builder.decodeToBuilder(jsonMap:jsDataCast)
+        return try MonikProto.KeepAlive.Builder.decodeToBuilder(jsonMap:jsDataCast)
       }
     }
 
@@ -1067,7 +1069,7 @@ public extension Tutorial {
 
   final public class Log : GeneratedMessage {
 
-    public static func == (lhs: Tutorial.Log, rhs: Tutorial.Log) -> Bool {
+    public static func == (lhs: MonikProto.Log, rhs: MonikProto.Log) -> Bool {
       if (lhs === rhs) {
         return true
       }
@@ -1081,11 +1083,11 @@ public extension Tutorial {
       return fieldCheck
     }
 
-    public fileprivate(set) var level:Tutorial.LevelType = Tutorial.LevelType.system
+    public fileprivate(set) var level:MonikProto.LevelType = MonikProto.LevelType.system
     public fileprivate(set) var hasLevel:Bool = false
-    public fileprivate(set) var severity:Tutorial.SeverityType = Tutorial.SeverityType.fatal
+    public fileprivate(set) var severity:MonikProto.SeverityType = MonikProto.SeverityType.fatal
     public fileprivate(set) var hasSeverity:Bool = false
-    public fileprivate(set) var format:Tutorial.FormatType = Tutorial.FormatType.plain
+    public fileprivate(set) var format:MonikProto.FormatType = MonikProto.FormatType.plain
     public fileprivate(set) var hasFormat:Bool = false
     public fileprivate(set) var body:String = ""
     public fileprivate(set) var hasBody:Bool = false
@@ -1144,23 +1146,23 @@ public extension Tutorial {
       memoizedSerializedSize = serialize_size
       return serialize_size
     }
-    public class func getBuilder() -> Tutorial.Log.Builder {
-      return Tutorial.Log.classBuilder() as! Tutorial.Log.Builder
+    public class func getBuilder() -> MonikProto.Log.Builder {
+      return MonikProto.Log.classBuilder() as! MonikProto.Log.Builder
     }
-    public func getBuilder() -> Tutorial.Log.Builder {
-      return classBuilder() as! Tutorial.Log.Builder
+    public func getBuilder() -> MonikProto.Log.Builder {
+      return classBuilder() as! MonikProto.Log.Builder
     }
     override public class func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.Log.Builder()
+      return MonikProto.Log.Builder()
     }
     override public func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.Log.Builder()
+      return MonikProto.Log.Builder()
     }
-    public func toBuilder() throws -> Tutorial.Log.Builder {
-      return try Tutorial.Log.builderWithPrototype(prototype:self)
+    public func toBuilder() throws -> MonikProto.Log.Builder {
+      return try MonikProto.Log.builderWithPrototype(prototype:self)
     }
-    public class func builderWithPrototype(prototype:Tutorial.Log) throws -> Tutorial.Log.Builder {
-      return try Tutorial.Log.Builder().mergeFrom(other:prototype)
+    public class func builderWithPrototype(prototype:MonikProto.Log) throws -> MonikProto.Log.Builder {
+      return try MonikProto.Log.Builder().mergeFrom(other:prototype)
     }
     override public func encode() throws -> Dictionary<String,Any> {
       guard isInitialized() else {
@@ -1185,11 +1187,11 @@ public extension Tutorial {
       }
       return jsonMap
     }
-    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> Tutorial.Log {
-      return try Tutorial.Log.Builder.decodeToBuilder(jsonMap:jsonMap).build()
+    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> MonikProto.Log {
+      return try MonikProto.Log.Builder.decodeToBuilder(jsonMap:jsonMap).build()
     }
-    override class public func fromJSON(data:Data) throws -> Tutorial.Log {
-      return try Tutorial.Log.Builder.fromJSONToBuilder(data:data).build()
+    override class public func fromJSON(data:Data) throws -> MonikProto.Log {
+      return try MonikProto.Log.Builder.fromJSONToBuilder(data:data).build()
     }
     override public func getDescription(indent:String) throws -> String {
       var output = ""
@@ -1238,16 +1240,16 @@ public extension Tutorial {
     //Meta information declaration start
 
     override public class func className() -> String {
-        return "Tutorial.Log"
+        return "MonikProto.Log"
     }
     override public func className() -> String {
-        return "Tutorial.Log"
+        return "MonikProto.Log"
     }
     //Meta information declaration end
 
     final public class Builder : GeneratedMessageBuilder {
-      fileprivate var builderResult:Tutorial.Log = Tutorial.Log()
-      public func getMessage() -> Tutorial.Log {
+      fileprivate var builderResult:MonikProto.Log = MonikProto.Log()
+      public func getMessage() -> MonikProto.Log {
           return builderResult
       }
 
@@ -1259,7 +1261,7 @@ public extension Tutorial {
                 return builderResult.hasLevel
             }
         }
-        public var level:Tutorial.LevelType {
+        public var level:MonikProto.LevelType {
             get {
                 return builderResult.level
             }
@@ -1269,12 +1271,12 @@ public extension Tutorial {
             }
         }
       @discardableResult
-        public func setLevel(_ value:Tutorial.LevelType) -> Tutorial.Log.Builder {
+        public func setLevel(_ value:MonikProto.LevelType) -> MonikProto.Log.Builder {
           self.level = value
           return self
         }
       @discardableResult
-        public func clearLevel() -> Tutorial.Log.Builder {
+        public func clearLevel() -> MonikProto.Log.Builder {
            builderResult.hasLevel = false
            builderResult.level = .system
            return self
@@ -1284,7 +1286,7 @@ public extension Tutorial {
                 return builderResult.hasSeverity
             }
         }
-        public var severity:Tutorial.SeverityType {
+        public var severity:MonikProto.SeverityType {
             get {
                 return builderResult.severity
             }
@@ -1294,12 +1296,12 @@ public extension Tutorial {
             }
         }
       @discardableResult
-        public func setSeverity(_ value:Tutorial.SeverityType) -> Tutorial.Log.Builder {
+        public func setSeverity(_ value:MonikProto.SeverityType) -> MonikProto.Log.Builder {
           self.severity = value
           return self
         }
       @discardableResult
-        public func clearSeverity() -> Tutorial.Log.Builder {
+        public func clearSeverity() -> MonikProto.Log.Builder {
            builderResult.hasSeverity = false
            builderResult.severity = .fatal
            return self
@@ -1309,7 +1311,7 @@ public extension Tutorial {
                 return builderResult.hasFormat
             }
         }
-        public var format:Tutorial.FormatType {
+        public var format:MonikProto.FormatType {
             get {
                 return builderResult.format
             }
@@ -1319,12 +1321,12 @@ public extension Tutorial {
             }
         }
       @discardableResult
-        public func setFormat(_ value:Tutorial.FormatType) -> Tutorial.Log.Builder {
+        public func setFormat(_ value:MonikProto.FormatType) -> MonikProto.Log.Builder {
           self.format = value
           return self
         }
       @discardableResult
-        public func clearFormat() -> Tutorial.Log.Builder {
+        public func clearFormat() -> MonikProto.Log.Builder {
            builderResult.hasFormat = false
            builderResult.format = .plain
            return self
@@ -1344,12 +1346,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setBody(_ value:String) -> Tutorial.Log.Builder {
+      public func setBody(_ value:String) -> MonikProto.Log.Builder {
         self.body = value
         return self
       }
       @discardableResult
-      public func clearBody() -> Tutorial.Log.Builder{
+      public func clearBody() -> MonikProto.Log.Builder{
            builderResult.hasBody = false
            builderResult.body = ""
            return self
@@ -1369,12 +1371,12 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      public func setTags(_ value:String) -> Tutorial.Log.Builder {
+      public func setTags(_ value:String) -> MonikProto.Log.Builder {
         self.tags = value
         return self
       }
       @discardableResult
-      public func clearTags() -> Tutorial.Log.Builder{
+      public func clearTags() -> MonikProto.Log.Builder{
            builderResult.hasTags = false
            builderResult.tags = ""
            return self
@@ -1385,24 +1387,24 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      override public func clear() -> Tutorial.Log.Builder {
-        builderResult = Tutorial.Log()
+      override public func clear() -> MonikProto.Log.Builder {
+        builderResult = MonikProto.Log()
         return self
       }
-      override public func clone() throws -> Tutorial.Log.Builder {
-        return try Tutorial.Log.builderWithPrototype(prototype:builderResult)
+      override public func clone() throws -> MonikProto.Log.Builder {
+        return try MonikProto.Log.builderWithPrototype(prototype:builderResult)
       }
-      override public func build() throws -> Tutorial.Log {
+      override public func build() throws -> MonikProto.Log {
            try checkInitialized()
            return buildPartial()
       }
-      public func buildPartial() -> Tutorial.Log {
-        let returnMe:Tutorial.Log = builderResult
+      public func buildPartial() -> MonikProto.Log {
+        let returnMe:MonikProto.Log = builderResult
         return returnMe
       }
       @discardableResult
-      public func mergeFrom(other:Tutorial.Log) throws -> Tutorial.Log.Builder {
-        if other == Tutorial.Log() {
+      public func mergeFrom(other:MonikProto.Log) throws -> MonikProto.Log.Builder {
+        if other == MonikProto.Log() {
          return self
         }
         if other.hasLevel {
@@ -1424,11 +1426,11 @@ public extension Tutorial {
         return self
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> Tutorial.Log.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> MonikProto.Log.Builder {
            return try mergeFrom(codedInputStream: codedInputStream, extensionRegistry:ExtensionRegistry())
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Log.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Log.Builder {
         let unknownFieldsBuilder:UnknownFieldSet.Builder = try UnknownFieldSet.builderWithUnknownFields(copyFrom:self.unknownFields)
         while (true) {
           let protobufTag = try codedInputStream.readTag()
@@ -1439,7 +1441,7 @@ public extension Tutorial {
 
           case 8:
             let valueIntlevel = try codedInputStream.readEnum()
-            if let enumslevel = Tutorial.LevelType(rawValue:valueIntlevel){
+            if let enumslevel = MonikProto.LevelType(rawValue:valueIntlevel){
                  level = enumslevel
             } else {
                  try unknownFieldsBuilder.mergeVarintField(fieldNumber: 1, value:Int64(valueIntlevel))
@@ -1447,7 +1449,7 @@ public extension Tutorial {
 
           case 16:
             let valueIntseverity = try codedInputStream.readEnum()
-            if let enumsseverity = Tutorial.SeverityType(rawValue:valueIntseverity){
+            if let enumsseverity = MonikProto.SeverityType(rawValue:valueIntseverity){
                  severity = enumsseverity
             } else {
                  try unknownFieldsBuilder.mergeVarintField(fieldNumber: 2, value:Int64(valueIntseverity))
@@ -1455,7 +1457,7 @@ public extension Tutorial {
 
           case 24:
             let valueIntformat = try codedInputStream.readEnum()
-            if let enumsformat = Tutorial.FormatType(rawValue:valueIntformat){
+            if let enumsformat = MonikProto.FormatType(rawValue:valueIntformat){
                  format = enumsformat
             } else {
                  try unknownFieldsBuilder.mergeVarintField(fieldNumber: 3, value:Int64(valueIntformat))
@@ -1475,16 +1477,16 @@ public extension Tutorial {
           }
         }
       }
-      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> Tutorial.Log.Builder {
-        let resultDecodedBuilder = Tutorial.Log.Builder()
+      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> MonikProto.Log.Builder {
+        let resultDecodedBuilder = MonikProto.Log.Builder()
         if let jsonValueLevel = jsonMap["level"] as? String {
-          resultDecodedBuilder.level = try Tutorial.LevelType.fromString(str: jsonValueLevel)
+          resultDecodedBuilder.level = try MonikProto.LevelType.fromString(str: jsonValueLevel)
         }
         if let jsonValueSeverity = jsonMap["severity"] as? String {
-          resultDecodedBuilder.severity = try Tutorial.SeverityType.fromString(str: jsonValueSeverity)
+          resultDecodedBuilder.severity = try MonikProto.SeverityType.fromString(str: jsonValueSeverity)
         }
         if let jsonValueFormat = jsonMap["format"] as? String {
-          resultDecodedBuilder.format = try Tutorial.FormatType.fromString(str: jsonValueFormat)
+          resultDecodedBuilder.format = try MonikProto.FormatType.fromString(str: jsonValueFormat)
         }
         if let jsonValueBody = jsonMap["body"] as? String {
           resultDecodedBuilder.body = jsonValueBody
@@ -1494,12 +1496,12 @@ public extension Tutorial {
         }
         return resultDecodedBuilder
       }
-      override class public func fromJSONToBuilder(data:Data) throws -> Tutorial.Log.Builder {
+      override class public func fromJSONToBuilder(data:Data) throws -> MonikProto.Log.Builder {
         let jsonData = try JSONSerialization.jsonObject(with:data, options: JSONSerialization.ReadingOptions(rawValue: 0))
         guard let jsDataCast = jsonData as? Dictionary<String,Any> else {
           throw ProtocolBuffersError.invalidProtocolBuffer("Invalid JSON data")
         }
-        return try Tutorial.Log.Builder.decodeToBuilder(jsonMap:jsDataCast)
+        return try MonikProto.Log.Builder.decodeToBuilder(jsonMap:jsDataCast)
       }
     }
 
@@ -1507,7 +1509,7 @@ public extension Tutorial {
 
   final public class PerfCounter : GeneratedMessage {
 
-    public static func == (lhs: Tutorial.PerfCounter, rhs: Tutorial.PerfCounter) -> Bool {
+    public static func == (lhs: MonikProto.PerfCounter, rhs: MonikProto.PerfCounter) -> Bool {
       if (lhs === rhs) {
         return true
       }
@@ -1536,23 +1538,23 @@ public extension Tutorial {
       memoizedSerializedSize = serialize_size
       return serialize_size
     }
-    public class func getBuilder() -> Tutorial.PerfCounter.Builder {
-      return Tutorial.PerfCounter.classBuilder() as! Tutorial.PerfCounter.Builder
+    public class func getBuilder() -> MonikProto.PerfCounter.Builder {
+      return MonikProto.PerfCounter.classBuilder() as! MonikProto.PerfCounter.Builder
     }
-    public func getBuilder() -> Tutorial.PerfCounter.Builder {
-      return classBuilder() as! Tutorial.PerfCounter.Builder
+    public func getBuilder() -> MonikProto.PerfCounter.Builder {
+      return classBuilder() as! MonikProto.PerfCounter.Builder
     }
     override public class func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.PerfCounter.Builder()
+      return MonikProto.PerfCounter.Builder()
     }
     override public func classBuilder() -> ProtocolBuffersMessageBuilder {
-      return Tutorial.PerfCounter.Builder()
+      return MonikProto.PerfCounter.Builder()
     }
-    public func toBuilder() throws -> Tutorial.PerfCounter.Builder {
-      return try Tutorial.PerfCounter.builderWithPrototype(prototype:self)
+    public func toBuilder() throws -> MonikProto.PerfCounter.Builder {
+      return try MonikProto.PerfCounter.builderWithPrototype(prototype:self)
     }
-    public class func builderWithPrototype(prototype:Tutorial.PerfCounter) throws -> Tutorial.PerfCounter.Builder {
-      return try Tutorial.PerfCounter.Builder().mergeFrom(other:prototype)
+    public class func builderWithPrototype(prototype:MonikProto.PerfCounter) throws -> MonikProto.PerfCounter.Builder {
+      return try MonikProto.PerfCounter.Builder().mergeFrom(other:prototype)
     }
     override public func encode() throws -> Dictionary<String,Any> {
       guard isInitialized() else {
@@ -1562,11 +1564,11 @@ public extension Tutorial {
       let jsonMap:Dictionary<String,Any> = Dictionary<String,Any>()
       return jsonMap
     }
-    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> Tutorial.PerfCounter {
-      return try Tutorial.PerfCounter.Builder.decodeToBuilder(jsonMap:jsonMap).build()
+    override class public func decode(jsonMap:Dictionary<String,Any>) throws -> MonikProto.PerfCounter {
+      return try MonikProto.PerfCounter.Builder.decodeToBuilder(jsonMap:jsonMap).build()
     }
-    override class public func fromJSON(data:Data) throws -> Tutorial.PerfCounter {
-      return try Tutorial.PerfCounter.Builder.fromJSONToBuilder(data:data).build()
+    override class public func fromJSON(data:Data) throws -> MonikProto.PerfCounter {
+      return try MonikProto.PerfCounter.Builder.fromJSONToBuilder(data:data).build()
     }
     override public func getDescription(indent:String) throws -> String {
       var output = ""
@@ -1585,16 +1587,16 @@ public extension Tutorial {
     //Meta information declaration start
 
     override public class func className() -> String {
-        return "Tutorial.PerfCounter"
+        return "MonikProto.PerfCounter"
     }
     override public func className() -> String {
-        return "Tutorial.PerfCounter"
+        return "MonikProto.PerfCounter"
     }
     //Meta information declaration end
 
     final public class Builder : GeneratedMessageBuilder {
-      fileprivate var builderResult:Tutorial.PerfCounter = Tutorial.PerfCounter()
-      public func getMessage() -> Tutorial.PerfCounter {
+      fileprivate var builderResult:MonikProto.PerfCounter = MonikProto.PerfCounter()
+      public func getMessage() -> MonikProto.PerfCounter {
           return builderResult
       }
 
@@ -1607,35 +1609,35 @@ public extension Tutorial {
            }
       }
       @discardableResult
-      override public func clear() -> Tutorial.PerfCounter.Builder {
-        builderResult = Tutorial.PerfCounter()
+      override public func clear() -> MonikProto.PerfCounter.Builder {
+        builderResult = MonikProto.PerfCounter()
         return self
       }
-      override public func clone() throws -> Tutorial.PerfCounter.Builder {
-        return try Tutorial.PerfCounter.builderWithPrototype(prototype:builderResult)
+      override public func clone() throws -> MonikProto.PerfCounter.Builder {
+        return try MonikProto.PerfCounter.builderWithPrototype(prototype:builderResult)
       }
-      override public func build() throws -> Tutorial.PerfCounter {
+      override public func build() throws -> MonikProto.PerfCounter {
            try checkInitialized()
            return buildPartial()
       }
-      public func buildPartial() -> Tutorial.PerfCounter {
-        let returnMe:Tutorial.PerfCounter = builderResult
+      public func buildPartial() -> MonikProto.PerfCounter {
+        let returnMe:MonikProto.PerfCounter = builderResult
         return returnMe
       }
       @discardableResult
-      public func mergeFrom(other:Tutorial.PerfCounter) throws -> Tutorial.PerfCounter.Builder {
-        if other == Tutorial.PerfCounter() {
+      public func mergeFrom(other:MonikProto.PerfCounter) throws -> MonikProto.PerfCounter.Builder {
+        if other == MonikProto.PerfCounter() {
          return self
         }
         try merge(unknownField: other.unknownFields)
         return self
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> Tutorial.PerfCounter.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream) throws -> MonikProto.PerfCounter.Builder {
            return try mergeFrom(codedInputStream: codedInputStream, extensionRegistry:ExtensionRegistry())
       }
       @discardableResult
-      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.PerfCounter.Builder {
+      override public func mergeFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.PerfCounter.Builder {
         let unknownFieldsBuilder:UnknownFieldSet.Builder = try UnknownFieldSet.builderWithUnknownFields(copyFrom:self.unknownFields)
         while (true) {
           let protobufTag = try codedInputStream.readTag()
@@ -1652,140 +1654,140 @@ public extension Tutorial {
           }
         }
       }
-      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> Tutorial.PerfCounter.Builder {
-        let resultDecodedBuilder = Tutorial.PerfCounter.Builder()
+      class public func decodeToBuilder(jsonMap:Dictionary<String,Any>) throws -> MonikProto.PerfCounter.Builder {
+        let resultDecodedBuilder = MonikProto.PerfCounter.Builder()
         return resultDecodedBuilder
       }
-      override class public func fromJSONToBuilder(data:Data) throws -> Tutorial.PerfCounter.Builder {
+      override class public func fromJSONToBuilder(data:Data) throws -> MonikProto.PerfCounter.Builder {
         let jsonData = try JSONSerialization.jsonObject(with:data, options: JSONSerialization.ReadingOptions(rawValue: 0))
         guard let jsDataCast = jsonData as? Dictionary<String,Any> else {
           throw ProtocolBuffersError.invalidProtocolBuffer("Invalid JSON data")
         }
-        return try Tutorial.PerfCounter.Builder.decodeToBuilder(jsonMap:jsDataCast)
+        return try MonikProto.PerfCounter.Builder.decodeToBuilder(jsonMap:jsDataCast)
       }
     }
 
   }
 
 }
-extension Tutorial.Event: GeneratedMessageProtocol {
-  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<Tutorial.Event> {
-    var mergedArray = Array<Tutorial.Event>()
+extension MonikProto.Event: GeneratedMessageProtocol {
+  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<MonikProto.Event> {
+    var mergedArray = Array<MonikProto.Event>()
     while let value = try parseDelimitedFrom(inputStream: inputStream) {
       mergedArray.append(value)
     }
     return mergedArray
   }
-  public class func parseDelimitedFrom(inputStream: InputStream) throws -> Tutorial.Event? {
-    return try Tutorial.Event.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
+  public class func parseDelimitedFrom(inputStream: InputStream) throws -> MonikProto.Event? {
+    return try MonikProto.Event.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
   }
-  public class func parseFrom(data: Data) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(data: data, extensionRegistry:Tutorial.MonikRoot.default.extensionRegistry).build()
+  public class func parseFrom(data: Data) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(data: data, extensionRegistry:MonikProto.MonikRoot.default.extensionRegistry).build()
   }
-  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(inputStream: InputStream) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(inputStream: inputStream).build()
+  public class func parseFrom(inputStream: InputStream) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(inputStream: inputStream).build()
   }
-  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(codedInputStream: codedInputStream).build()
+  public class func parseFrom(codedInputStream: CodedInputStream) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(codedInputStream: codedInputStream).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Event {
-    return try Tutorial.Event.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Event {
+    return try MonikProto.Event.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
   }
 }
-extension Tutorial.KeepAlive: GeneratedMessageProtocol {
-  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<Tutorial.KeepAlive> {
-    var mergedArray = Array<Tutorial.KeepAlive>()
+extension MonikProto.KeepAlive: GeneratedMessageProtocol {
+  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<MonikProto.KeepAlive> {
+    var mergedArray = Array<MonikProto.KeepAlive>()
     while let value = try parseDelimitedFrom(inputStream: inputStream) {
       mergedArray.append(value)
     }
     return mergedArray
   }
-  public class func parseDelimitedFrom(inputStream: InputStream) throws -> Tutorial.KeepAlive? {
-    return try Tutorial.KeepAlive.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
+  public class func parseDelimitedFrom(inputStream: InputStream) throws -> MonikProto.KeepAlive? {
+    return try MonikProto.KeepAlive.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
   }
-  public class func parseFrom(data: Data) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(data: data, extensionRegistry:Tutorial.MonikRoot.default.extensionRegistry).build()
+  public class func parseFrom(data: Data) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(data: data, extensionRegistry:MonikProto.MonikRoot.default.extensionRegistry).build()
   }
-  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(inputStream: InputStream) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(inputStream: inputStream).build()
+  public class func parseFrom(inputStream: InputStream) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(inputStream: inputStream).build()
   }
-  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(codedInputStream: codedInputStream).build()
+  public class func parseFrom(codedInputStream: CodedInputStream) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(codedInputStream: codedInputStream).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.KeepAlive {
-    return try Tutorial.KeepAlive.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.KeepAlive {
+    return try MonikProto.KeepAlive.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
   }
 }
-extension Tutorial.Log: GeneratedMessageProtocol {
-  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<Tutorial.Log> {
-    var mergedArray = Array<Tutorial.Log>()
+extension MonikProto.Log: GeneratedMessageProtocol {
+  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<MonikProto.Log> {
+    var mergedArray = Array<MonikProto.Log>()
     while let value = try parseDelimitedFrom(inputStream: inputStream) {
       mergedArray.append(value)
     }
     return mergedArray
   }
-  public class func parseDelimitedFrom(inputStream: InputStream) throws -> Tutorial.Log? {
-    return try Tutorial.Log.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
+  public class func parseDelimitedFrom(inputStream: InputStream) throws -> MonikProto.Log? {
+    return try MonikProto.Log.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
   }
-  public class func parseFrom(data: Data) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(data: data, extensionRegistry:Tutorial.MonikRoot.default.extensionRegistry).build()
+  public class func parseFrom(data: Data) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(data: data, extensionRegistry:MonikProto.MonikRoot.default.extensionRegistry).build()
   }
-  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(inputStream: InputStream) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(inputStream: inputStream).build()
+  public class func parseFrom(inputStream: InputStream) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(inputStream: inputStream).build()
   }
-  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(codedInputStream: codedInputStream).build()
+  public class func parseFrom(codedInputStream: CodedInputStream) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(codedInputStream: codedInputStream).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.Log {
-    return try Tutorial.Log.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.Log {
+    return try MonikProto.Log.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
   }
 }
-extension Tutorial.PerfCounter: GeneratedMessageProtocol {
-  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<Tutorial.PerfCounter> {
-    var mergedArray = Array<Tutorial.PerfCounter>()
+extension MonikProto.PerfCounter: GeneratedMessageProtocol {
+  public class func parseArrayDelimitedFrom(inputStream: InputStream) throws -> Array<MonikProto.PerfCounter> {
+    var mergedArray = Array<MonikProto.PerfCounter>()
     while let value = try parseDelimitedFrom(inputStream: inputStream) {
       mergedArray.append(value)
     }
     return mergedArray
   }
-  public class func parseDelimitedFrom(inputStream: InputStream) throws -> Tutorial.PerfCounter? {
-    return try Tutorial.PerfCounter.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
+  public class func parseDelimitedFrom(inputStream: InputStream) throws -> MonikProto.PerfCounter? {
+    return try MonikProto.PerfCounter.Builder().mergeDelimitedFrom(inputStream: inputStream)?.build()
   }
-  public class func parseFrom(data: Data) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(data: data, extensionRegistry:Tutorial.MonikRoot.default.extensionRegistry).build()
+  public class func parseFrom(data: Data) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(data: data, extensionRegistry:MonikProto.MonikRoot.default.extensionRegistry).build()
   }
-  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(data: Data, extensionRegistry:ExtensionRegistry) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(data: data, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(inputStream: InputStream) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(inputStream: inputStream).build()
+  public class func parseFrom(inputStream: InputStream) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(inputStream: inputStream).build()
   }
-  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(inputStream: InputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(inputStream: inputStream, extensionRegistry:extensionRegistry).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(codedInputStream: codedInputStream).build()
+  public class func parseFrom(codedInputStream: CodedInputStream) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(codedInputStream: codedInputStream).build()
   }
-  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> Tutorial.PerfCounter {
-    return try Tutorial.PerfCounter.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
+  public class func parseFrom(codedInputStream: CodedInputStream, extensionRegistry:ExtensionRegistry) throws -> MonikProto.PerfCounter {
+    return try MonikProto.PerfCounter.Builder().mergeFrom(codedInputStream: codedInputStream, extensionRegistry:extensionRegistry).build()
   }
 }
 

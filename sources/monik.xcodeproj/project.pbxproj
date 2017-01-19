@@ -10,12 +10,12 @@
 		843DD80B1E28CBA900405E92 /* monik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843DD8011E28CBA900405E92 /* monik.framework */; };
 		843DD8101E28CBA900405E92 /* monikTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD80F1E28CBA900405E92 /* monikTests.swift */; };
 		843DD8121E28CBA900405E92 /* monik.h in Headers */ = {isa = PBXBuildFile; fileRef = 843DD8041E28CBA900405E92 /* monik.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		843DD8221E28CD5B00405E92 /* CommonProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD81B1E28CD5B00405E92 /* CommonProtocols.swift */; };
 		843DD8231E28CD5B00405E92 /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD81C1E28CD5B00405E92 /* ConsoleLogger.swift */; };
 		843DD8241E28CD5B00405E92 /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD81D1E28CD5B00405E92 /* Factory.swift */; };
 		843DD8251E28CD5B00405E92 /* Monik.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD81E1E28CD5B00405E92 /* Monik.swift */; };
 		843DD8271E28CD5B00405E92 /* MonikLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD8201E28CD5B00405E92 /* MonikLogger.swift */; };
-		843DD8281E28CD5B00405E92 /* Tutorial.Monik.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843DD8211E28CD5B00405E92 /* Tutorial.Monik.proto.swift */; };
+		846A208A1E30ED9E0080ECDF /* MonikCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A20891E30ED9E0080ECDF /* MonikCommon.swift */; };
+		846A208E1E30EF390080ECDF /* Monik.proto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846A208D1E30EF390080ECDF /* Monik.proto.swift */; };
 		92EE8ECAB0427CD8B3F3A543 /* Pods_monikTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AFAEFE807B0F373B18186F /* Pods_monikTests.framework */; };
 		D4117B9367672F1A35C1AD6A /* Pods_monik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A676D63AA79AB28C87D5DD1B /* Pods_monik.framework */; };
 /* End PBXBuildFile section */
@@ -40,12 +40,12 @@
 		843DD80A1E28CBA900405E92 /* monikTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = monikTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		843DD80F1E28CBA900405E92 /* monikTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = monikTests.swift; sourceTree = "<group>"; };
 		843DD8111E28CBA900405E92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		843DD81B1E28CD5B00405E92 /* CommonProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonProtocols.swift; sourceTree = "<group>"; };
 		843DD81C1E28CD5B00405E92 /* ConsoleLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleLogger.swift; sourceTree = "<group>"; };
 		843DD81D1E28CD5B00405E92 /* Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
 		843DD81E1E28CD5B00405E92 /* Monik.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monik.swift; sourceTree = "<group>"; };
 		843DD8201E28CD5B00405E92 /* MonikLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonikLogger.swift; sourceTree = "<group>"; };
-		843DD8211E28CD5B00405E92 /* Tutorial.Monik.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tutorial.Monik.proto.swift; sourceTree = "<group>"; };
+		846A20891E30ED9E0080ECDF /* MonikCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonikCommon.swift; sourceTree = "<group>"; };
+		846A208D1E30EF390080ECDF /* Monik.proto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Monik.proto.swift; sourceTree = "<group>"; };
 		9576F052BDDBB54E60D4F32F /* Pods-monik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monik.release.xcconfig"; path = "Pods/Target Support Files/Pods-monik/Pods-monik.release.xcconfig"; sourceTree = "<group>"; };
 		A676D63AA79AB28C87D5DD1B /* Pods_monik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_monik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3D9C6DF7754C29C0E9BACB3 /* Pods-monikTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-monikTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-monikTests/Pods-monikTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -115,12 +115,12 @@
 		843DD8031E28CBA900405E92 /* monik */ = {
 			isa = PBXGroup;
 			children = (
-				843DD81B1E28CD5B00405E92 /* CommonProtocols.swift */,
+				846A208D1E30EF390080ECDF /* Monik.proto.swift */,
+				846A20891E30ED9E0080ECDF /* MonikCommon.swift */,
 				843DD81C1E28CD5B00405E92 /* ConsoleLogger.swift */,
 				843DD81D1E28CD5B00405E92 /* Factory.swift */,
 				843DD81E1E28CD5B00405E92 /* Monik.swift */,
 				843DD8201E28CD5B00405E92 /* MonikLogger.swift */,
-				843DD8211E28CD5B00405E92 /* Tutorial.Monik.proto.swift */,
 				843DD8041E28CBA900405E92 /* monik.h */,
 				843DD8051E28CBA900405E92 /* Info.plist */,
 			);
@@ -333,11 +333,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				843DD8251E28CD5B00405E92 /* Monik.swift in Sources */,
-				843DD8281E28CD5B00405E92 /* Tutorial.Monik.proto.swift in Sources */,
 				843DD8271E28CD5B00405E92 /* MonikLogger.swift in Sources */,
-				843DD8221E28CD5B00405E92 /* CommonProtocols.swift in Sources */,
+				846A208E1E30EF390080ECDF /* Monik.proto.swift in Sources */,
 				843DD8231E28CD5B00405E92 /* ConsoleLogger.swift in Sources */,
 				843DD8241E28CD5B00405E92 /* Factory.swift in Sources */,
+				846A208A1E30ED9E0080ECDF /* MonikCommon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
