@@ -13,12 +13,13 @@
                  {
                      "mq" :
                      {
-                         "host"     : "10.0.20.115",
-                         "port"     : 5672,
-                         "user"      : "test",
-                         "password"  : "test",
-                        "exchange"  : "MonikExchangeDev",
-                        "durable"   : true
+                         "host"     : "mqtest.smartdriving.io",
+                         "port"     : 5671,
+                         "user"     : "sdl",
+                         "password" : "sdl12345",
+                         "exchange" : "MonikExchangeDev",
+                         "durable"  : true,
+                         "useSsl"   : true
                      },
                      "meta" :
                      {
