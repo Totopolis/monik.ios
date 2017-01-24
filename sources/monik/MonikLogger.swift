@@ -12,31 +12,15 @@ import ProtocolBuffers
 
 open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     
-    /// Structure for configurating monik logger.
-    public struct Config {
-        var host        = "localhost"
-        var port        = 5672
-        var username    = "test"
-        var password    = "test"
-        var exchange    = "monik.queue"
-        var durable     = true
-        var reconnectTimeout = 3
-        
-        /// Connection string for rabbitMQ client.
-        var uri: String {
-            return "amqp://\(username):\(password)@\(host):\(port)"
-        }
-    }
-    
     open func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
         
-        let lg = Tutorial.Log.Builder()
+        let lg = MonikProto.Log.Builder()
         lg.body     = message
-        lg.level    = Tutorial.LevelType.application
-        lg.severity = Tutorial.SeverityType.verbose
-        lg.format   = Tutorial.FormatType.plain
+        lg.level    = MonikProto.LevelType.application
+        lg.severity = MonikProto.SeverityType.verbose
+        lg.format   = MonikProto.FormatType.plain
         
-        let eventBuilder = Tutorial.Event.Builder()
+        let eventBuilder = MonikProto.Event.Builder()
         eventBuilder.created = Int64(Date().timeIntervalSinceNow * 1000)
         eventBuilder.source = source.description
         eventBuilder.instance = instanceId
@@ -45,36 +29,59 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
         
         let event = try! eventBuilder.build()
 
-        queue.sync {
-            publish(event.data())
+        queue.async {
+            self.publish(event.data())
         }
     }
     
+    /// Publish data if connected or save if not
+    ///
+    /// - Parameter data: Data to be published
     private func publish(_ data: Data) {
-        
-        let confirmNumber = exchange.publish(data, routingKey: "", persistent: true )
-        
-        if let cfn = confirmNumber {
-            events[cfn] = data
+    
+        if #available (iOS 10.0, *) {
+            dispatchPrecondition(condition: .onQueue(queue))
         }
         
-        print("Confirm: \(confirmNumber ?? 0)")
+        // If has connection try to enqueue
+        if transport?.isConnected == true {
+            let confirmNumber = transport!.publish(data)
+    
+            if let cfn = confirmNumber {
+                events[cfn] = data
+            }
+            
+            print("Confirm: \(confirmNumber ?? 0)")
+        } else {
+            // else save to publish later when connection restore
+            items.append(data)
+            print("Enqueued: \(data)")
+        }
     }
     
     open func close() {
-        conn.close()
+        transport?.disconnect()
     }
     
+    /// Check confirmation each 15 seconds
     @objc private func scheduleConfirm() {
-        channel.afterConfirmed(0) { [weak self] (ack, nack) in
-            self?.queue.sync {
-                print("nack: \(nack)")
-                self?.removeConfirmed(ack: ack, nack: nack)
+        guard transport?.isConnected == true else {
+            return
+        }
+        
+        transport?.afterConfirmed { (ack, nack) in
+            self.queue.async {
+                self.removeConfirmed(ack: ack, nack: nack)
             }
         }
     }
     
     private func removeConfirmed(ack: Set<NSNumber>, nack: Set<NSNumber>) {
+        
+        if #available(iOS 10.0, *) {
+            dispatchPrecondition(condition: .onQueue(queue))
+        }
+        
         print("Before \(events.count)")
         
         guard !events.isEmpty else {
@@ -87,17 +94,41 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
         }
         
         ack.forEach { (cfg) in
-            events.removeValue(forKey: cfg)
+            events.removeValue(forKey: cfg.intValue)
         }
         print("After \(events.count)")
         
-        if isConnected && !events.isEmpty {
-            let reevents = events
-            events.removeAll(keepingCapacity: true)
-            
-            reevents.forEach {
-                publish($0.value)
+        guard transport?.isConnected == true,
+            !events.isEmpty else
+        {
+            return
+        }
+        
+        let reevents = events
+        events.removeAll()
+        
+        let keys = reevents.keys.sorted(by:<)
+        keys.forEach {
+            if let data = reevents[$0] {
+                publish(data)
             }
+        }
+    }
+    
+    private func sendOnReconnect() {
+        
+        if #available(iOS 10.0, *) {
+            dispatchPrecondition(condition: .onQueue(queue))
+        }
+        
+        guard !items.isEmpty else {
+            return
+        }
+        
+        let old = self.items
+        self.items.removeAll()
+        old.forEach {
+            self.publish($0)
         }
     }
     
@@ -106,59 +137,47 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
             return
         }
         
-        print("Connect with uri: \(config.uri)")
+        queue.async {
+            self.transport = Transport(config: config) { [unowned self] (isConnected) in
+                guard isConnected else {
+                    return
+                }
+                
+                self.queue.async {
+                    self.sendOnReconnect()
+                }
+            }
+        }
         
-        conn = RMQConnection(uri: config.uri, delegate: self)//, delegate: delegate, recoverAfter: NSNumber(value: config.reconnectTimeout))
-        conn.start()
-        
-        let ch = conn.createChannel()
-        
-        ch.confirmSelect()
-        
-        channel = ch
-  
-        timer = Timer.scheduledTimer(timeInterval: 15, target: self, selector: #selector(scheduleConfirm), userInfo: nil, repeats: true)
-        
-        let opt: RMQExchangeDeclareOptions = config.durable ? [.durable] : []
-        
-        exchange = ch.fanout(config.exchange, options: opt)
+        timer = Timer.scheduledTimer(timeInterval: 15,
+                                     target: self,
+                                     selector: #selector(scheduleConfirm),
+                                     userInfo: nil,
+                                     repeats: true)
     }
     
-    private func republish() {
-        
-    }
+    private var transport: Transport?
     
-    private var conn: RMQConnection!
-    private var exchange: RMQExchange!
-    private var channel: RMQChannel!
-//    private let delegate = MonikRMQConnectionDelegate()
-    
-    /// Queue for syncronized publish and events manipulation.
+    /// Serial Queue for syncronized publish and events manipulation.
     private let queue = DispatchQueue(label: "monik.publish")
     
-    fileprivate var events: [NSNumber: Data] = [:]
+    fileprivate var items: [Data] = []
+    fileprivate var events: [Int: Data] = [:]
     fileprivate var timer: Timer?
     
-    fileprivate var config: Config? {
+    fileprivate var config: MonikLogger.Config? {
         didSet {
             if config != nil {
                 initialize()
             }
         }
     }
+    fileprivate var isSuspened = true
     
     open static let identifier = "monik"
     open var level: Monik.level = .trace
     open var formatter: Formatter?
     open var instanceId: String = "[0:0]"
-    
-    fileprivate (set) var isConnected = false {
-        didSet {
-            if isConnected {
-                republish()
-            }
-        }
-    }
 }
 
 extension MonikLogger: Configurable {
@@ -170,7 +189,7 @@ extension MonikLogger: Configurable {
         guard let monik = data["monik"] as? [AnyHashable: Any],
             let sync = monik["sync"] as? [AnyHashable: Any],
             let mq = sync["mq"] as? [AnyHashable: Any],
-            let config = Config(with: mq),
+            let config = MonikLogger.Config(with: mq),
 //            let meta = sync["meta"] as? [AnyHashable: Any],
             // параметры переотправки сообщения в очередь.
             let _ = monik["async"] as? [AnyHashable: Any] else
@@ -184,73 +203,7 @@ extension MonikLogger: Configurable {
     /// Configure logger with configuration structure.
     ///
     /// - Parameter config: structure with configuration parameters.
-    open func configure(with config: Config) {
+    open func configure(with config: MonikLogger.Config) {
         self.config = config
     }
-}
-
-extension MonikLogger.Config {
-    
-    init?(with data: [AnyHashable : Any])  {
-        if let host = data["host"] as? String,
-            let port = data["port"] as? Int,
-            let user = data["user"] as? String,
-            let password = data["password"] as? String,
-            let exchange = data["exchange"] as? String,
-            let durable = data["durable"] as? Bool
-        {
-            self.host = host
-            self.port = port
-            self.username = user
-            self.password = password
-            self.exchange = exchange
-            self.durable = durable
-        } else {
-            return nil
-        }
-    }
-}
-
-// MARK: -
-
-//open class MonikRMQConnectionDelegate: NSObject, RMQConnectionDelegate {
-extension MonikLogger: RMQConnectionDelegate {
-    
-    /// @brief Called when a socket cannot be opened, or when AMQP handshaking times out for some reason.
-    public func connection(_ connection: RMQConnection!, failedToConnectWithError error: Error!) {
-        print("[DISCONNECTED] Failed to connect with error: \(error)")
-    }
-    
-    /// @brief Called when a connection disconnects for any reason
-    public func connection(_ connection: RMQConnection!, disconnectedWithError error: Error!) {
-        print("[DISCONNECTED] Disconnected with error: \(error)")
-        
-        isConnected = false
-    }
-    
-    /// @brief Called before the configured <a href="http://www.rabbitmq.com/api-guide.html#recovery">automatic connection recovery</a> sleep.
-    public func willStartRecovery(with connection: RMQConnection!) {
-        print("[DISCONNECTED] Will start recovery with \(connection)")
-    }
-    
-    /// @brief Called after the configured <a href="http://www.rabbitmq.com/api-guide.html#recovery">automatic connection recovery</a> sleep.
-    public func startingRecovery(with connection: RMQConnection!) {
-        print("[DISCONNECTED] Starting recovery with \(connection)")
-    }
-    
-    /*!
-     * @brief Called when <a href="http://www.rabbitmq.com/api-guide.html#recovery">automatic connection recovery</a> has succeeded.
-     * @param RMQConnection the connection instance that was recovered.
-     */
-    public func recoveredConnection(_ connection: RMQConnection!) {
-        print("[CONNECTED] Recovered connection \(connection)")
-        isConnected = true
-    }
-    
-    /// @brief Called with any channel-level AMQP exception.
-    public func channel(_ channel: RMQChannel!, error: Error!)  {
-        print("[???] Channel exception \(error)")
-    }
-    
-    
 }

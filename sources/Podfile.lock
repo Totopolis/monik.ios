@@ -1,27 +1,33 @@
 PODS:
-  - CocoaAsyncSocket (7.4.3):
-    - CocoaAsyncSocket/All (= 7.4.3)
-  - CocoaAsyncSocket/All (7.4.3):
-    - CocoaAsyncSocket/GCD
-    - CocoaAsyncSocket/RunLoop
-  - CocoaAsyncSocket/GCD (7.4.3)
-  - CocoaAsyncSocket/RunLoop (7.4.3)
+  - CocoaAsyncSocket (7.5.1):
+    - CocoaAsyncSocket/GCD (= 7.5.1)
+  - CocoaAsyncSocket/GCD (7.5.1)
   - JKVValue (1.3.2)
   - ProtocolBuffers-Swift (3.0.3)
   - RMQClient (0.10.0):
-    - CocoaAsyncSocket (~> 7.4.0)
+    - CocoaAsyncSocket (~> 7.5.0)
     - JKVValue
 
 DEPENDENCIES:
   - ProtocolBuffers-Swift (= 3.0.3)
-  - RMQClient (~> 0.10.0)
+  - RMQClient (from `https://github.com/rabbitmq/rabbitmq-objc-client.git`, tag `rabbitmq_v3_6_7_milestone3`)
+
+EXTERNAL SOURCES:
+  RMQClient:
+    :git: https://github.com/rabbitmq/rabbitmq-objc-client.git
+    :tag: rabbitmq_v3_6_7_milestone3
+
+CHECKOUT OPTIONS:
+  RMQClient:
+    :git: https://github.com/rabbitmq/rabbitmq-objc-client.git
+    :tag: rabbitmq_v3_6_7_milestone3
 
 SPEC CHECKSUMS:
-  CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
+  CocoaAsyncSocket: e0a7e93b2ffa411592ff87e58524fbbc9b95b4fa
   JKVValue: 3a6bb1f0c02fb98404835ab5620327dfda48561e
   ProtocolBuffers-Swift: 572c8b24d1405ba556a5f682bc4453c7a98dc946
-  RMQClient: e9bfea2d08f151b6b12df82ad115c78bd8de2106
+  RMQClient: 33413a665cd9ba1deade2644784db8bb2e5c388a
 
-PODFILE CHECKSUM: ccd157c458d327b764394e00123e002a34667792
+PODFILE CHECKSUM: 8520cc39b00c59d76cfa7508318da7e1cdac8b09
 
 COCOAPODS: 1.1.1

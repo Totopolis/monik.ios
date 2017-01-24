@@ -16,11 +16,11 @@ PODS:
     - JKVValue
 
 DEPENDENCIES:
-  - monik (from `~/Projects/monik.ios`)
+  - monik (from `../../../../monik.ios`)
 
 EXTERNAL SOURCES:
   monik:
-    :path: ~/Projects/monik.ios
+    :path: ../../../../monik.ios
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
@@ -29,6 +29,6 @@ SPEC CHECKSUMS:
   ProtocolBuffers-Swift: 572c8b24d1405ba556a5f682bc4453c7a98dc946
   RMQClient: e9bfea2d08f151b6b12df82ad115c78bd8de2106
 
-PODFILE CHECKSUM: 17cd299a266951f1d7ca1daa6614c2b25781e94a
+PODFILE CHECKSUM: dc58fbceb8b4d227326264a358db48248f188a23
 
 COCOAPODS: 1.1.1

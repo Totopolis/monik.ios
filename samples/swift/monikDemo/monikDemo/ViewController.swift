@@ -25,11 +25,9 @@ class ViewController: UIViewController {
         
         Monik.default.loggers.forEach { $0.formatter = fmt }
         
-        log("reset")
+        log("reset\n\(Date())")
         
         log("\(self): viewDidLoad")
-        
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateTick), userInfo: nil, repeats: true)
     }
     
     deinit {
@@ -48,7 +46,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func sendMessage(_ sender: Any) {
-        log("\(sender) click at \(Date())")
+//        log("\(sender) click at \(Date())")
+        updateTick()
     }
     
     @objc private func updateTick() {
@@ -79,9 +78,17 @@ final class TextViewLogger: Logger {
     
     func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
         DispatchQueue.main.async {
-            self.textView.text = self.textView.text + "\n\(message)"
+            if self.linesCount > 32 {
+                self.linesCount = 0
+                self.textView.text = "\(message)"
+            } else {
+                self.linesCount += 1
+                self.textView.text = self.textView.text + "\n\(message)"
+            }
+            
         }
     }
     
     private let textView: UITextView
+    private var linesCount = 0
 }
