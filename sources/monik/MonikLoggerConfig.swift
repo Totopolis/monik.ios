@@ -18,7 +18,7 @@ extension MonikLogger {
         public var exchange    = ""
         public var durable     = true
         public var reconnectTimeout = 5
-        public var secure      = true
+        public var useSsl      = true
         /// Connection string for rabbitMQ client.
         public var uri         = ""
     }
@@ -47,8 +47,8 @@ extension MonikLogger.Config {
             self.port = port
             self.username = user
             self.password = password
-            self.secure = data["secure"] as? Bool ?? false
-            let scheme = secure ? "amqps" : "amqp"
+            self.useSsl = data["useSsl"] as? Bool ?? false
+            let scheme = useSsl ? "amqps" : "amqp"
             self.uri = "\(scheme)://\(username):\(password)@\(host):\(port)"
         } else {
             return nil

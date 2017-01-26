@@ -22,8 +22,8 @@ extension MonikLogger {
             print("Connect with uri: \(config.uri)")
             
             conn = RMQConnection(uri: config.uri,
-                                 delegate: self,
-                                 recoverAfter: NSNumber(value: config.reconnectTimeout))
+                                 verifyPeer: true,
+                                 delegate: self)
             
             connect()
         }
