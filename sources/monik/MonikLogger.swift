@@ -50,12 +50,9 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
             if let cfn = confirmNumber {
                 events[cfn] = data
             }
-            
-            print("Confirm: \(confirmNumber ?? 0)")
         } else {
             // else save to publish later when connection restore
             items.append(data)
-            print("Enqueued: \(data)")
         }
     }
     
@@ -82,8 +79,6 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
             dispatchPrecondition(condition: .onQueue(queue))
         }
         
-        print("Before \(events.count)")
-        
         guard !events.isEmpty else {
             return
         }
@@ -96,7 +91,6 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
         ack.forEach { (cfg) in
             events.removeValue(forKey: cfg.intValue)
         }
-        print("After \(events.count)")
         
         guard transport?.isConnected == true,
             !events.isEmpty else
@@ -177,7 +171,7 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     open static let identifier = "monik"
     open var level: Monik.level = .trace
     open var formatter: Formatter?
-    open var instanceId: String = "[0:0]"
+    open var instanceId: String = "0:0"
 }
 
 extension MonikLogger: Configurable {
