@@ -84,8 +84,15 @@ extension Monik {
         
         self.loggers = loggers.flatMap {
             guard let channel = $0["channel"] as? String,
-                let logger = factory.instantiate(channel) else {
+                let logger = factory.instantiate(channel) else
+            {
                     return nil
+            }
+            
+            if let enabled = $0["enabled"] as? Bool,
+                enabled == false
+            {
+                return nil
             }
             
             try? (logger as? Configurable)?.configure(with: $0)
