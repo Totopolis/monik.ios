@@ -9,6 +9,13 @@
 import Foundation
 import RMQClient
 
+private func debugPrint(_ text: String) {
+    #if DEBUG
+        Swift.print(text)
+    #else
+    #endif
+}
+
 extension MonikLogger {
     
     open class Transport: NSObject {
@@ -19,7 +26,7 @@ extension MonikLogger {
             
             super.init()
             
-            print("Connect with uri: \(config.uri)")
+            debugPrint("Connect with uri: \(config.uri)")
             
             conn = RMQConnection(uri: config.uri,
                                  verifyPeer: true,
@@ -45,7 +52,7 @@ extension MonikLogger {
             
             conn.start() {
                 self.isConnected = true
-                print("!!! [CONNECTED] !!!")
+                debugPrint("!!! [CONNECTED] !!!")
             }
             
             let ch = conn.createChannel()
@@ -126,25 +133,25 @@ extension MonikLogger.Transport: RMQConnectionDelegate {
     
     /// @brief Called when a socket cannot be opened, or when AMQP handshaking times out for some reason.
     public func connection(_ connection: RMQConnection!, failedToConnectWithError error: Error!) {
-        print("[DISCONNECTED] Failed to connect with error: \(error)")
+        debugPrint("[DISCONNECTED] Failed to connect with error: \(error)")
         isConnected = false
     }
     
     /// @brief Called when a connection disconnects for any reason
     public func connection(_ connection: RMQConnection!, disconnectedWithError error: Error!) {
-        print("[DISCONNECTED] Disconnected with error: \(error)")
+        debugPrint("[DISCONNECTED] Disconnected with error: \(error)")
         
         isConnected = false
     }
     
     /// @brief Called before the configured <a href="http://www.rabbitmq.com/api-guide.html#recovery">automatic connection recovery</a> sleep.
     public func willStartRecovery(with connection: RMQConnection!) {
-        print("[DISCONNECTED] Will start recovery with \(connection)")
+        debugPrint("[DISCONNECTED] Will start recovery with \(connection)")
     }
     
     /// @brief Called after the configured <a href="http://www.rabbitmq.com/api-guide.html#recovery">automatic connection recovery</a> sleep.
     public func startingRecovery(with connection: RMQConnection!) {
-        print("[DISCONNECTED] Starting recovery with \(connection)")
+        debugPrint("[DISCONNECTED] Starting recovery with \(connection)")
     }
     
     /*!
@@ -152,12 +159,12 @@ extension MonikLogger.Transport: RMQConnectionDelegate {
      * @param RMQConnection the connection instance that was recovered.
      */
     public func recoveredConnection(_ connection: RMQConnection!) {
-        print("[CONNECTED] Recovered connection \(connection)")
+        debugPrint("[CONNECTED] Recovered connection \(connection)")
         isConnected = true
     }
     
     /// @brief Called with any channel-level AMQP exception.
     public func channel(_ channel: RMQChannel!, error: Error!)  {
-        print("[???] Channel exception \(error)")
+        debugPrint("[???] Channel exception \(error)")
     }
 }
