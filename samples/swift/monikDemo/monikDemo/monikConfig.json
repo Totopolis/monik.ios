@@ -14,7 +14,7 @@
                  {
                      "mq" :
                      {
-                         "host"     : "10.0.20.109",
+                         "host"     : "10.0.20.113",
                          "port"     : 5672,
                          "user"     : "test",
                          "password" : "test",

@@ -103,7 +103,7 @@ extension Monik {
     
     open func configure(with url: URL) {
         
-        queue.sync {
+        queue.async {
             guard let data = try? Data(contentsOf: url),
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [AnyHashable: Any],
                 let configuration = json else
@@ -111,7 +111,7 @@ extension Monik {
                 return
             }
             
-            try? configure(with: configuration, factory: Factory.self)
+            try? self.configure(with: configuration, factory: Factory.self)
         }
     }
 }
