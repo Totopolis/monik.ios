@@ -5,21 +5,22 @@
              "level"     : "trace"
          },
          {
-             "channel"   : "monik",
-             "level"     : "trace",
-             "monik"     :
+             "channel"  : "monik",
+             "level"    : "trace",
+             "enabled"  : true, 
+             "monik"    :  
              {
                  "sync" :
                  {
                      "mq" :
                      {
-                         "host"     : "mqtest.smartdriving.io",
-                         "port"     : 5671,
-                         "user"     : "sdl",
-                         "password" : "sdl12345",
+                         "host"     : "10.0.20.109",
+                         "port"     : 5672,
+                         "user"     : "test",
+                         "password" : "test",
                          "exchange" : "MonikExchangeDev",
                          "durable"  : true,
-                         "useSsl"   : true
+                         "useSsl"   : false
                      },
                      "meta" :
                      {
