@@ -10,14 +10,39 @@ import Foundation
 import RMQClient
 import ProtocolBuffers
 
+private extension Monik.Level {
+    
+    var severityType: MonikProto.SeverityType {
+        switch self {
+        case .trace : return .verbose
+        case .info  : return .info
+        case .warning: return .warning
+        case .error : return .error
+        case .fatal : return .fatal
+        }
+    }
+}
+
+private extension Monik.Source {
+    
+    var levelType: MonikProto.LevelType {
+        switch self {
+        case .application: return .application
+        case .logic     : return .logic
+        case .security  : return .security
+        case .system    : return .system
+        }
+    }
+}
+
 open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     
     open func log(_ source: Monik.Source, _ level: Monik.Level, _ message: String) {
         
         let lg = MonikProto.Log.Builder()
         lg.body     = message
-        lg.level    = MonikProto.LevelType.application
-        lg.severity = MonikProto.SeverityType.verbose
+        lg.level    = source.levelType
+        lg.severity = level.severityType
         lg.format   = MonikProto.FormatType.plain
         
         let eventBuilder = MonikProto.Event.Builder()
