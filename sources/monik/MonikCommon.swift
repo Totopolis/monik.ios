@@ -15,7 +15,7 @@ public protocol Logger: class {
     static var identifier: String { get }
     
     /// Current logging level. Can be changed at any time.
-    var level: Monik.level { get set }
+    var level: Monik.Level { get set }
     
     /// Formatter which applied to each logged message
     var formatter: Formatter? { get set }
@@ -27,7 +27,7 @@ public protocol Logger: class {
     ///   - level: Severity level of current logging message. Skipped if message
     ///             level less then current logger level.
     ///   - message: Log message
-    func log(_ source: Monik.source, _ level: Monik.level, _ message: String)
+    func log(_ source: Monik.Source, _ level: Monik.Level, _ message: String)
 }
 
 /// Protocol for formatting messages to the log
@@ -73,7 +73,7 @@ extension Configurable where Self: Logger {
     /// - Throws: confgirureError if necessary fields missed
     public func defaultConfigure(with data: [AnyHashable: Any]) throws {
         if let rawLevel = data["level"] as? String,
-            let level = Monik.level(from: rawLevel)
+            let level = Monik.Level(from: rawLevel)
         {
             self.level = level
         } else {

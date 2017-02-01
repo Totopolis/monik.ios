@@ -10,15 +10,18 @@ import Foundation
 
 open class Monik: Closable {
     
-    public enum source {
-        case system, application, logic, security
+    public enum Source {
+        case system
+        case application
+        case logic
+        case security
         
         var description: String {
             return String(describing: self)
         }
     }
     
-    public enum level {
+    public enum Level {
         case trace, info, warning, error, fatal
         
         var description: String {
@@ -26,7 +29,7 @@ open class Monik: Closable {
         }
 
         init?(from: String) {
-            let all: [level] = [.trace, .info, .warning, .error, .fatal]
+            let all: [Level] = [.trace, .info, .warning, .error, .fatal]
             
             guard let found = all.filter({ $0.description == from }).first else {
                 return nil
@@ -47,7 +50,7 @@ open class Monik: Closable {
         log(.logic, .warning, message)
     }
     
-    open func log(_ source: source, _ level: level, _ message: String) {
+    open func log(_ source: Source, _ level: Level, _ message: String) {
         queue.async {
             self.loggers.forEach {
                 if level >= $0.level {
@@ -117,12 +120,12 @@ extension Monik {
 }
 
 
-extension Monik.level: Comparable {}
+extension Monik.Level: Comparable {}
 
-public func ==(lhs: Monik.level, rhs: Monik.level) -> Bool {
+public func ==(lhs: Monik.Level, rhs: Monik.Level) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }
 
-public func <(lhs: Monik.level, rhs: Monik.level) -> Bool {
+public func <(lhs: Monik.Level, rhs: Monik.Level) -> Bool {
     return lhs.hashValue < rhs.hashValue
 }

@@ -11,12 +11,12 @@ import Foundation
 /// Class for logging to console.
 open class ConsoleLogger: Logger, Configurable {
     
-    public func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
+    public func log(_ source: Monik.Source, _ level: Monik.Level, _ message: String) {
         Swift.print(message)
     }
 
     open static let identifier = "console"
-    open var level: Monik.level = .trace
+    open var level: Monik.Level = .trace
     open var formatter: Formatter?
 }
 

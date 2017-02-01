@@ -12,7 +12,7 @@ import ProtocolBuffers
 
 open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     
-    open func log(_ source: Monik.source, _ level: Monik.level, _ message: String) {
+    open func log(_ source: Monik.Source, _ level: Monik.Level, _ message: String) {
         
         let lg = MonikProto.Log.Builder()
         lg.body     = message
@@ -21,8 +21,8 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
         lg.format   = MonikProto.FormatType.plain
         
         let eventBuilder = MonikProto.Event.Builder()
-        eventBuilder.created = Int64(Date().timeIntervalSinceNow * 1000)
-        eventBuilder.source = source.description
+        eventBuilder.created = Int64(Date().timeIntervalSince1970 * 1000)
+        eventBuilder.source = config?.source ?? "Application"
         eventBuilder.instance = instanceId
         
         eventBuilder.lg = try! lg.build()
@@ -169,7 +169,7 @@ open class MonikLogger: NSObject, Logger, Closable, InstanceIdentifiable {
     fileprivate var isSuspened = true
     
     open static let identifier = "monik"
-    open var level: Monik.level = .trace
+    open var level: Monik.Level = .trace
     open var formatter: Formatter?
     open var instanceId: String = "0:0"
 }
@@ -183,8 +183,10 @@ extension MonikLogger: Configurable {
         guard let monik = data["monik"] as? [AnyHashable: Any],
             let sync = monik["sync"] as? [AnyHashable: Any],
             let mq = sync["mq"] as? [AnyHashable: Any],
-            let config = MonikLogger.Config(with: mq),
-//            let meta = sync["meta"] as? [AnyHashable: Any],
+//            let meta = sync["meta"] as? [AnyHashable: Any] ,
+            let config = MonikLogger.Config(
+                with: mq,
+                source:((sync["meta"] as? [AnyHashable: Any])?["source"]) as? String ?? "Application"),
             // параметры переотправки сообщения в очередь.
             let _ = monik["async"] as? [AnyHashable: Any] else
         {

@@ -19,6 +19,7 @@ extension MonikLogger {
         public var durable     = true
         public var reconnectTimeout = 5
         public var useSsl      = true
+        public var source      = ""
         /// Connection string for rabbitMQ client.
         public var uri         = ""
     }
@@ -29,9 +30,10 @@ extension MonikLogger.Config {
         self.uri = uri
     }
     
-    public init?(with data: [AnyHashable : Any])  {
+    public init?(with data: [AnyHashable : Any], source: String)  {
         self.durable = data["durable"] as? Bool ?? true
         self.exchange = data["exchange"] as? String ?? ""
+        self.source = source
         
         if let uri = data["uri"] as? String {
             self.uri = uri
